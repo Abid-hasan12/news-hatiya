@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News Hatiya | Stay Updated</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .scrollbar-none {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+    .scrollbar-none::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="bg-gray-900 text-white text-sm">
+    <div class="mx-auto flex flex-col gap-3 px-4 py-2 md:flex-row md:items-center md:justify-between md:px-6">
+      <div class="top-bar__date">
+        Tuesday, June 9, 2026
+      </div>
+      <div class="top-bar__social flex items-center gap-3 justify-start md:justify-end">
+        <a href="#" class="social-link hover:text-gray-300" aria-label="Facebook">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#" class="social-link hover:text-gray-300" aria-label="Twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#" class="social-link hover:text-gray-300" aria-label="YouTube">
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a href="#" class="social-link hover:text-gray-300" aria-label="Instagram">
+          <i class="fab fa-instagram"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+<!-- nav -->
+  <section class="breaking-news bg-white border-t border-gray-200 text-sm">
+    <div class="mx-auto flex flex-col gap-2 px-4 py-3 md:flex-row md:items-center md:px-6">
+      <div class="breaking-news__label inline-flex items-center rounded px-3 py-1 bg-red-600 text-white font-bold">
+        ব্রেকিং নিউজ:
+      </div>
+      <div class="breaking-news__ticker overflow-hidden text-gray-800">
+        <marquee class="breaking-news__marquee" behavior="scroll" direction="left" scrollamount="5">
+          ব্রেকিং নিউজ: রাজধানীতে নতুন ট্রাফিক আইন কার্যকর হচ্ছে | প্রধানমন্ত্রী আজ নতুন হাসপাতালে উদ্বোধন করবেন | দেশের বাণিজ্যে নতুন উন্নয়নের তথ্য প্রকাশিত
+        </marquee>
+      </div>
+    </div>
+  </section>
+  <!-- Navigation Header -->
+  <nav class="bg-white sticky top-0 shadow-sm z-40">
+    <div class="mx-auto px-4 py-2 md:px-6">
+      <div class="relative">
+        <button id="menu-btn" class="md:hidden absolute right-0 top-0 mt-3 text-gray-700 hover:text-red-600" aria-label="Open menu">
+          <i class="fas fa-bars"></i>
+        </button>
+        <div class="flex justify-center">
+          <div class="flex items-center gap-2">
+            <span class="text-black font-bold text-3xl">News</span>
+            <span class="text-red-600 font-bold text-3xl">Hatiya</span>
+          </div>
+        </div>
+      </div>
+      <div class="mt-2">
+        <ul id="menu" class="hidden md:flex items-center justify-center gap-6 text-gray-700 font-bold">
+          <li class="px-2 py-1 hover:text-red-600">হোম</li>
+          <li class="px-2 py-1 hover:text-red-600">জাতীয়</li>
+          <li class="px-2 py-1 hover:text-red-600">রাজনীতি</li>
+          <li class="px-2 py-1 hover:text-red-600">আন্তর্জাতিক</li>
+          <li class="px-2 py-1 hover:text-red-600">chakri</li>
+          <li class="px-2 py-1 hover:text-red-600">খেলাধুলা</li>
+          <li class="px-2 py-1 hover:text-red-600">বিনোদন</li>
+          <li class="px-2 py-1 hover:text-red-600">প্রযুক্তি</li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+<!-- hero section -->
+  <section class="hero-section bg-gray-50">
+    <div class="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl px-4 py-6">
+      <article class="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=1400&q=80" alt="Featured news" class="w-full h-[400px] object-cover rounded-b-none rounded-t-3xl" />
+        <div class="p-6">
+          <span class="inline-flex items-center rounded-full bg-red-600 px-3 py-1 text-sm font-semibold text-white">জাতীয়</span>
+          <h1 class="mt-4 text-3xl font-bold text-gray-900 leading-tight">পদ্মা সেতুতে রেকর্ড পরিমাণ টোল আদায়, খুশি যাত্রী ও চালকেরা</h1>
+          <p class="mt-4 text-gray-600 text-base leading-relaxed">বিভিন্ন প্রান্ত থেকে আগত গাড়ির চাপ সত্ত্বেও কর্তৃপক্ষের প্রস্তুতি ছিল চমৎকার, ফলে যাত্রীরা নিরাপদে গন্তব্যে পৌঁছাতে পারলেন।</p>
+          <div class="mt-6 text-gray-500 text-sm">৫ মিনিট আগে</div>
+        </div>
+      </article>
+
+      <aside class="latest-news bg-white rounded-3xl shadow-sm p-6">
+        <h2 class="text-xl font-bold text-gray-900">সর্বশেষ সংবাদ</h2>
+        <div class="mt-6 space-y-5">
+          <div class="flex items-start gap-4">
+            <img src="https://images.unsplash.com/photo-1521412644187-c49fa049e84d?auto=format&fit=crop&w=200&q=80" alt="Latest news 1" class="w-24 h-20 object-cover rounded" />
+            <div>
+              <h3 class="text-base font-semibold text-gray-900">ঢাকায় নতুন ট্রাফিক আইন নিয়ে নতুন নির্দেশনা জারি</h3>
+              <p class="mt-2 text-sm text-gray-500">১০ মিনিট আগে</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <img src="https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=200&q=80" alt="Latest news 2" class="w-24 h-20 object-cover rounded" />
+            <div>
+              <h3 class="text-base font-semibold text-gray-900">প্রধানমন্ত্রী আজ নতুন হাসপাতাল উদ্বোধন করবেন</h3>
+              <p class="mt-2 text-sm text-gray-500">২৫ মিনিট আগে</p>
+            </div>
+          </div>
+          <div class="flex items-start gap-4">
+            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=200&q=80" alt="Latest news 3" class="w-24 h-20 object-cover rounded" />
+            <div>
+              <h3 class="text-base font-semibold text-gray-900">দেশের বাণিজ্যে নতুন উন্নয়নের তথ্য প্রকাশিত</h3>
+              <p class="mt-2 text-sm text-gray-500">৪০ মিনিট আগে</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+<!-- 4 columns section -->
+  <section class="category-grid max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 border-b border-gray-200">
+    <article class="bg-white rounded-3xl shadow-sm overflow-hidden">
+      <header class="px-5 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-gray-900">রাজনীতি</h2>
+      </header>
+      <div class="p-5 space-y-4">
+        <a href="#" class="block overflow-hidden rounded-3xl">
+          <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80" alt="রাজনীতি সংবাদ" class="w-full h-36 object-cover" />
+        </a>
+        <div>
+          <h3 class="text-base font-bold text-gray-900">সংসদীয় বাজেট আলোচনায় নতুন পূর্বাভাস প্রকাশ</h3>
+          <p class="mt-2 text-sm text-gray-500">৪ ঘণ্টা আগে</p>
+        </div>
+        <div class="space-y-3 text-sm text-gray-700">
+          <a href="#" class="block border-t border-gray-100 pt-2">ঐক্যফ্রন্ট নতুন মঞ্চ নিয়ে প্রস্তাব দিচ্ছে</a>
+          <a href="#" class="block border-t border-gray-100 pt-2">মেয়র প্রার্থীর প্রচারণা শুরু হয়েছে শহরে</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="bg-white rounded-3xl shadow-sm overflow-hidden">
+      <header class="px-5 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-gray-900">আন্তর্জাতিক</h2>
+      </header>
+      <div class="p-5 space-y-4">
+        <a href="#" class="block overflow-hidden rounded-3xl">
+          <img src="https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80" alt="আন্তর্জাতিক সংবাদ" class="w-full h-36 object-cover" />
+        </a>
+        <div>
+          <h3 class="text-base font-bold text-gray-900">আন্তর্জাতিক সম্মেলনে জলবায়ু চুক্তিতে নতুন অগ্রগতি</h3>
+          <p class="mt-2 text-sm text-gray-500">৪ ঘণ্টা আগে</p>
+        </div>
+        <div class="space-y-3 text-sm text-gray-700">
+          <a href="#" class="block border-t border-gray-100 pt-2">সীমান্তে শান্তি আলোচনায় মুখোমুখি বৈঠক</a>
+          <a href="#" class="block border-t border-gray-100 pt-2">বাণিজ্য চুক্তিতে আরও ছাড়ের ঘোষণা</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="bg-white rounded-3xl shadow-sm overflow-hidden">
+      <header class="px-5 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-gray-900">বিনোদন</h2>
+      </header>
+      <div class="p-5 space-y-4">
+        <a href="#" class="block overflow-hidden rounded-3xl">
+          <img src="https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?auto=format&fit=crop&w=800&q=80" alt="বিনোদন সংবাদ" class="w-full h-36 object-cover" />
+        </a>
+        <div>
+          <h3 class="text-base font-bold text-gray-900">নতুন সিনেমার পোস্টার প্রকাশ, ভক্তদের উচ্ছ্বাস</h3>
+          <p class="mt-2 text-sm text-gray-500">৪ ঘণ্টা আগে</p>
+        </div>
+        <div class="space-y-3 text-sm text-gray-700">
+          <a href="#" class="block border-t border-gray-100 pt-2">প্রাক্তন তারকার ফেরার খবর ফ্যানদের মধ্যে আলোড়ন</a>
+          <a href="#" class="block border-t border-gray-100 pt-2">টেলিভিশন চ্যানেলে নতুন ধারাবাহিকের সূচনা</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="bg-white rounded-3xl shadow-sm overflow-hidden">
+      <header class="px-5 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-gray-900">খেলাধুলা</h2>
+      </header>
+      <div class="p-5 space-y-4">
+        <a href="#" class="block overflow-hidden rounded-3xl">
+          <img src="https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=800&q=80" alt="খেলাধুলা সংবাদ" class="w-full h-36 object-cover" />
+        </a>
+        <div>
+          <h3 class="text-base font-bold text-gray-900">ম্যাচে দুর্দান্ত জয়, নড়েচড়ে বসেছে সমর্থকরা</h3>
+          <p class="mt-2 text-sm text-gray-500">৪ ঘণ্টা আগে</p>
+        </div>
+        <div class="space-y-3 text-sm text-gray-700">
+          <a href="#" class="block border-t border-gray-100 pt-2">জাতীয় দলের কোচের পরিকল্পনায় নতুন ছক</a>
+          <a href="#" class="block border-t border-gray-100 pt-2">তাজা প্রিমিয়ার লিগ ম্যাচের আগে প্রস্তুতি</a>
+        </div>
+      </div>
+    </article>
+  </section>
+
+  <!-- Trending Topics Bar -->
+  <section class="max-w-7xl mx-auto px-4 py-4 flex items-center gap-3 overflow-x-auto whitespace-nowrap scrollbar-hide border-b border-gray-200">
+    <div class="inline-flex items-center rounded px-3 py-2 bg-teal-800 text-white font-bold text-sm flex-shrink-0">
+      ট্রেন্ডিং:
+    </div>
+    
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      ইরান-যুক্তরাষ্ট্র যুদ্ধ
+    </a>
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      জ্বালানি সংকট
+    </a>
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      ঈদুল আজহা
+    </a>
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      স্বরাষ্ট্র মন্ত্রণালয়
+    </a>
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      ডোনাল্ড ট্রাম্প
+    </a>
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      নতুন আইন
+    </a>
+    <a href="#" class="inline-flex items-center rounded px-3 py-2 bg-gray-100 text-gray-700 hover:bg-teal-800 hover:text-white transition text-sm flex-shrink-0">
+      অর্থনীতি সংবাদ
+    </a>
+  </section>
+<!-- shorts -->
+  <section class="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
+    <h2 class="text-xl font-bold text-teal-800 text-center mb-6">শর্টস</h2>
+    <div class="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none pb-4" style="scrollbar-width: none; -ms-overflow-style: none;">
+      <!-- Shorts Card 1 -->
+      <a href="#" class="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer">
+        <img src="https://via.placeholder.com/360x640?text=Short+1" alt="শর্ট ১" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="bg-gradient-to-t from-black/80 via-transparent to-transparent absolute inset-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i class="fas fa-play-circle text-white text-5xl"></i>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">পদ্মা সেতুতে টোল রেকর্ড</div>
+      </a>
+
+      <!-- Shorts Card 2 -->
+      <a href="#" class="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer">
+        <img src="https://via.placeholder.com/360x640?text=Short+2" alt="শর্ট ২" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="bg-gradient-to-t from-black/80 via-transparent to-transparent absolute inset-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i class="fas fa-play-circle text-white text-5xl"></i>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">প্রধানমন্ত্রীর হাসপাতাল উদ্বোধন</div>
+      </a>
+
+      <!-- Shorts Card 3 -->
+      <a href="#" class="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer">
+        <img src="https://via.placeholder.com/360x640?text=Short+3" alt="শর্ট ৩" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="bg-gradient-to-t from-black/80 via-transparent to-transparent absolute inset-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i class="fas fa-play-circle text-white text-5xl"></i>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">দেশের বাণিজ্যে নতুন অগ্রগতি</div>
+      </a>
+
+      <!-- Shorts Card 4 -->
+      <a href="#" class="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer">
+        <img src="https://via.placeholder.com/360x640?text=Short+4" alt="শর্ট ৪" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="bg-gradient-to-t from-black/80 via-transparent to-transparent absolute inset-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i class="fas fa-play-circle text-white text-5xl"></i>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">নতুন সিনেমার পোস্টার প্রকাশ</div>
+      </a>
+
+      <!-- Shorts Card 5 -->
+      <a href="#" class="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer">
+        <img src="https://via.placeholder.com/360x640?text=Short+5" alt="শর্ট ৫" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="bg-gradient-to-t from-black/80 via-transparent to-transparent absolute inset-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i class="fas fa-play-circle text-white text-5xl"></i>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">ম্যাচে দুর্দান্ত জয়</div>
+      </a>
+
+      <!-- Shorts Card 6 -->
+      <a href="#" class="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer">
+        <img src="https://via.placeholder.com/360x640?text=Short+6" alt="শর্ট ৬" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105" />
+        <div class="bg-gradient-to-t from-black/80 via-transparent to-transparent absolute inset-0"></div>
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <i class="fas fa-play-circle text-white text-5xl"></i>
+        </div>
+        <div class="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">স্বাস্থ্য শহরে দ্রুত ছুটে চলেছে</div>
+      </a>
+    </div>
+  </section>
+
+  <script src="./script.js"></script>
+</body>
+</html>
