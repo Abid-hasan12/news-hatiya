@@ -1,14 +1,7 @@
 import React from 'react';
 
-export default function Footer() {
-    // অন্যান্য পাতার লিংক ডাটা
-    const internalLinks = [
-        { id: 1, text: "আমাদের সম্পর্কে", link: "#" },
-        { id: 2, text: "বিজ্ঞাপনের মূল্যতালিকা", link: "#" },
-        { id: 3, text: "শর্তাবলী", link: "#" },
-        { id: 4, text: "গোপনীয়তা নীতি", link: "#" }
-    ];
-
+// প্রপ্স হিসেবে links অ্যারে রিসিভ করা হচ্ছে
+export default function Footer({ links }) {
     return (
         <footer className="bg-gray-950 text-gray-400 pt-12 pb-6 mt-12 border-t-4 border-teal-800">
             <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -52,11 +45,11 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* ================= COLUMN 2: Other Pages Links ================= */}
+                {/* ================= COLUMN 2: Other Pages Links (Dynamic) ================= */}
                 <div>
                     <h3 className="text-white font-bold text-sm mb-4">অন্যান্য পাতা</h3>
                     <nav className="flex flex-col space-y-2 text-xs">
-                        {internalLinks.map((item) => (
+                        {links?.map((item) => (
                             <a
                                 key={item.id}
                                 href={item.link}
