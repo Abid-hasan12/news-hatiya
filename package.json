@@ -9,8 +9,7 @@
     "build": "vite build",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && git --git-dir=dist/.git --work-tree=dist init && git --git-dir=dist/.git --work-tree=dist branch -m gh-pages && git --git-dir=dist/.git --work-tree=dist add . && git --git-dir=dist/.git --work-tree=dist commit -m \"deploy\" && git --git-dir=dist/.git --work-tree=dist remote add origin https://github.com/Abid-hasan12/news-hatiya.git && git --git-dir=dist/.git --work-tree=dist push -f origin gh-pages"
   },
   "dependencies": {
     "react": "^19.2.7",
