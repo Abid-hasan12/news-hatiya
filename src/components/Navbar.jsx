@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
-// প্রপ্স হিসেবে categories, breakingNews, এবং onMenuOpen রিসিভ করা হচ্ছে
-export default function Navbar({ categories, breakingNews, onMenuOpen }) {
+// 🎯 প্রপ্স হিসেবে নতুন করে onCategoryClick এবং onLogoClick রিসিভ করা হলো
+export default function Navbar({ categories, breakingNews, onMenuOpen, onCategoryClick, onLogoClick }) {
     const [currentDate, setCurrentDate] = useState('');
 
     // লাইভ বাংলা/ইংলিশ ফরম্যাটে আজকের তারিখ দেখানোর জন্য
@@ -44,7 +44,7 @@ export default function Navbar({ categories, breakingNews, onMenuOpen }) {
                         {/* Instagram */}
                         <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
                             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0 3.259-.014 3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
                             </svg>
                         </a>
                     </div>
@@ -59,7 +59,6 @@ export default function Navbar({ categories, breakingNews, onMenuOpen }) {
                     </div>
                     <div className="breaking-news__ticker flex-1 flex justify-center items-center text-center overflow-hidden text-gray-800">
                         <marquee className="breaking-news__marquee" behavior="scroll" direction="left" scrollamount="5">
-                            {/* অ্যারে জয়েন করে ডাইনামিকালি মারকুইতে শো করা হচ্ছে */}
                             {breakingNews ? breakingNews.join(" | ") : "লোড হচ্ছে..."}
                         </marquee>
                     </div>
@@ -71,10 +70,13 @@ export default function Navbar({ categories, breakingNews, onMenuOpen }) {
                 {/* Logo & Main Actions */}
                 <div className="border-b border-gray-100 py-3">
                     <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
-                        <a href="#" className="flex items-center gap-1 shrink-0">
+
+                        {/* 🎯 লোগোতে onClick বসানো হলো এবং href সরিয়ে বাটন বিহেভিয়ার দেওয়া হলো */}
+                        <button onClick={onLogoClick} className="flex items-center gap-1 shrink-0 cursor-pointer focus:outline-none">
                             <span className="text-black font-extrabold text-2xl md:text-3xl tracking-tight">News</span>
                             <span className="text-red-600 font-extrabold text-2xl md:text-3xl tracking-tight">Hatiya</span>
-                        </a>
+                        </button>
+
                         <div className="flex items-center gap-3 md:gap-4 text-gray-700 shrink-0">
                             <button
                                 className=" text-gray-700 hover:text-red-600 p-1.5 transition-colors"
@@ -100,25 +102,30 @@ export default function Navbar({ categories, breakingNews, onMenuOpen }) {
                 <div className="w-full bg-white border-b border-gray-200">
                     <div className="max-w-7xl mx-auto px-4 md:px-6 flex items-center justify-between relative">
 
-                        {/* Custom scroll class applied */}
                         <div className="flex-1 overflow-x-auto pr-2 md:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
                             <ul className="flex items-center gap-5 md:gap-6 text-gray-800 font-bold text-sm py-3 whitespace-nowrap md:whitespace-normal md:justify-center">
                                 {categories?.map((category, index) => (
-                                    <li key={index} className="hover:text-red-600 cursor-pointer transition-colors">
+
+                                    /* 🎯 এখানে onClick ইভেন্টটি যোগ করা হয়েছে যা App.jsx এর স্টেটকে চেঞ্জ করবে */
+                                    <li
+                                        key={index}
+                                        onClick={() => onCategoryClick(category)}
+                                        className="hover:text-red-600 cursor-pointer transition-colors"
+                                    >
                                         {category}
                                     </li>
+
                                 ))}
                             </ul>
                         </div>
 
-                        {/* ================= FIXED & UPDATED HAMBURGER BUTTON ================= */}
+                        {/* Hamburger Button */}
                         <button
                             onClick={onMenuOpen}
                             id="menu-btn"
                             className="text-gray-800 hover:text-red-600 flex items-center pl-3 bg-white h-full py-3 shrink-0 md:hidden sticky right-0 z-10 shadow-[-10px_0_15px_rgba(255,255,255,0.9)]"
                             aria-label="Toggle Menu"
                         >
-                            {/* Pure SVG 3-Line Hamburger Icon */}
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                             </svg>

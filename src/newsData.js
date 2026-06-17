@@ -225,7 +225,7 @@ export const allNews = [
         desc: "মাঠের প্রতিটি মুহূর্তে ছিল উত্তেজনার গান।",
         time: "৪ ঘণ্টা আগে",
         imgSrc: "https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80",
-        videoType: "featured" // বড় ভিডিও
+        videoType: "featured"
     },
     {
         id: "v2",
@@ -233,7 +233,7 @@ export const allNews = [
         category: "ভিডিও",
         time: "২ ঘণ্টা আগে",
         imgSrc: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=200&q=80",
-        videoType: "list" // মাঝখানের লিস্টের ভিডিও
+        videoType: "list"
     },
     {
         id: "v3",
