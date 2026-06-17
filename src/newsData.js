@@ -46,49 +46,37 @@ export const allNews = [
         imgSrc: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=200&q=80",
         isFeatured: false
     },
+
+// রাজনীতি সেকশনের ডাটা
     {
-        id: 5,
-        title: "সংসদীয় বাজেট আলোচনায় নতুন পূর্বাভাস প্রকাশ",
+        id: 1,
+        title: "সংসদীয় বাজেট আলোচনায় নতুন অর্থনৈতিক পূর্বাভাস প্রকাশ",
         category: "রাজনীতি",
         time: "৪ ঘণ্টা আগে",
         imgSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
     },
     {
-        id: 6,
-        title: "ঐক্যফ্রন্ট নতুন মঞ্চ নিয়ে প্রস্তাব দিচ্ছে",
+        id: 2,
+        title: "ঐক্যফ্রন্টের নতুন রাজনৈতিক মঞ্চ নিয়ে রূপরেখা প্রস্তাব",
         category: "রাজনীতি",
         time: "৫ ঘণ্টা আগে",
-        imgSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+        imgSrc: "https://images.unsplash.com/photo-1540910419892-4a36d2c3266c?auto=format&fit=crop&w=800&q=80"
     },
     {
-        id: 7,
-        title: "মেয়র প্রার্থীর প্রচারণা শুরু হয়েছে শহরে",
+        id: 3,
+        title: "আসন্ন সিটি কর্পোরেশন নির্বাচন: মেয়র প্রার্থীদের প্রচারণা শুরু",
         category: "রাজনীতি",
         time: "৬ ঘণ্টা আগে",
-        imgSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
-    },
-    // আন্তর্জাতিক
-    {
-        id: 8,
-        title: "আন্তর্জাতিক সম্মেলনে জলবায়ু চুক্তিতে নতুন অগ্রগতি",
-        category: "আন্তর্জাতিক",
-        time: "৪ ঘণ্টা আগে",
-        imgSrc: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=800&q=80"
+        imgSrc: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80"
     },
     {
-        id: 9,
-        title: "সীমান্তে শান্তি আলোচনায় মুখোমুখি বৈঠক",
-        category: "আন্তর্জাতিক",
-        time: "৫ ঘণ্টা আগে",
-        imgSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
+        id: 4,
+        title: "সার্বভৌমত্ব ও অভ্যন্তরীণ নিরাপত্তা রক্ষায় সর্বদলীয় বৈঠক আহ্বান",
+        category: "রাজনীতি",
+        time: "৮ ঘণ্টা আগে",
+        imgSrc: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80"
     },
-    {
-        id: 10,
-        title: "বাণিজ্য চুক্তিতে আরও ছাড়ের ঘোষণা",
-        category: "আন্তর্জাতিক",
-        time: "৬ ঘণ্টা আগে",
-        imgSrc: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=800&q=80"
-    },
+
     // shorts
     {
         id: "s1",

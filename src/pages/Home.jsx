@@ -3,7 +3,7 @@ import { allNews, trendingTags, trendingTopicsData } from '../newsData'; // স�
 
 //  হোম পেজের সাব-কম্পোনেন্টসমূহ ইমপোর্ট
 import HeroSection from './Home/HeroSection';
-import CategoryGrid from './Home/CategoryGrid';
+import Politics from './Home/Politics';
 import TrendingBar from './Home/TrendingBar';
 import Shorts from './Home/Shorts';
 import MostRead from './Home/MostRead';
@@ -27,19 +27,16 @@ export default function Home() {
     const bigFeaturedNews = allNews.find(news => news.isFeatured === true);
     const latestSidebar = allNews.filter(news => news.category === "সর্বশেষ").slice(0, 3);
 
-    // 🎯 ২. ক্যাটাগরি গ্রিডের ডাটা প্রসেসিং (রাজনীতি, আন্তর্জাতিক, বিনোদন, খেলাধুলা)
-    const gridCategories = [
-        { name: "রাজনীতি", label: "রাজনীতি" },
-        { name: "আন্তর্জাতিক", label: "আন্তর্জাতিক" },
-        { name: "বিনোদন", label: "বিনোদন" },
-        { name: "খেলাধুলা", label: "খেলাধুলা" }
-    ];
+    // 🎯 ২. রাজনীতি সেকশনের ডাটা ফিল্টারিং
+    const politicsNewsList = allNews.filter(news => news.category === "রাজনীতি");
+    const politicsLead = politicsNewsList[0]; 
+    const politicsRelated = politicsNewsList.slice(1, 4); 
 
-    const processedGridData = gridCategories.map(cat => ({
-        categoryName: cat.label,
-        // প্রতিটা ক্যাটাগরির লেটেস্ট ৩টি করে নিউজ ফিল্টার করা হচ্ছে
-        newsList: allNews.filter(news => news.category === cat.name).slice(0, 3)
-    }));
+    // 🎯 ১৩. বিশ্ব সেকশনের ডাটা ফিল্টারিং
+    const worldLeadNews = allNews.find(news => news.category === "বিশ্ব" && news.worldType === "lead");
+    const worldMiddleList = allNews.filter(news => news.category === "বিশ্ব" && news.worldType === "middleCard").slice(0, 2);
+    const worldBulletList = allNews.filter(news => news.category === "বিশ্ব" && news.worldType === "bullet").slice(0, 2);
+
 
     // 🎯 ৩. শর্টস সেকশনের ডাটা ফিল্টারিং
     const filteredShorts = allNews.filter(news => news.category === "শর্টস");
@@ -60,7 +57,7 @@ export default function Home() {
     const sportsSidebarList = allNews.filter(news => news.category === "খেলাধুলা" && news.sportsType === "sidebar").slice(0, 4);
     const sportsFeatureCard = allNews.find(news => news.category === "খেলাধুলা" && news.sportsType === "feature");
 
-    // 🎯 ৭. ওয়েব স্টোরি সেকশনের ডাটা ফিল্টারিং
+    // 🎯 7. ওয়েব স্টোরি সেকশনের ডাটা ফিল্টারিং
     const filteredWebStories = allNews.filter(news => news.category === "ওয়েব স্টোরি");
 
     // 🎯 ৮. ছাপা সংস্করণ সেকশনের ডাটা ফিল্টারিং
@@ -86,11 +83,6 @@ export default function Home() {
     const jobCircularList = allNews.filter(news => news.category === "চাকরি" && news.jobType === "circular").slice(0, 3);
     const jobGuideCard = allNews.find(news => news.category === "চাকরি" && news.jobType === "guide");
 
-    // 🎯 ১৩. বিশ্ব সেকশনের ডাটা ফিল্টারিং
-    const worldLeadNews = allNews.find(news => news.category === "বিশ্ব" && news.worldType === "lead");
-    const worldMiddleList = allNews.filter(news => news.category === "বিশ্ব" && news.worldType === "middleCard").slice(0, 2);
-    const worldBulletList = allNews.filter(news => news.category === "বিশ্ব" && news.worldType === "bullet").slice(0, 2);
-
     // 🎯 ১৪. ইসলাম সেকশনের ডাটা ফিল্টারিং
     const islamCardList = allNews.filter(news => news.category === "ইসলাম" && news.islamicType === "card").slice(0, 3);
     const islamTextList = allNews.filter(news => news.category === "ইসলাম" && news.islamicType === "text").slice(0, 2);
@@ -106,56 +98,64 @@ export default function Home() {
 
     return (
         <div className="home-page">
-            {/* ১. হিরো সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১. হিরো সেকশন */}
             <HeroSection featuredNews={bigFeaturedNews} sidebarNews={latestSidebar} />
 
-            {/* ২. ক্যাটাগরি গ্রিড (প্রসেসড ডাটা পাস করা হলো) */}
-            <CategoryGrid gridData={processedGridData} />
+            {/* 🎯 2. রাজনীতি সেকশন - ফিল্টার করা ডাটা প্রপ্স হিসেবে পাস করা হলো */}
+            <Politics leadNews={politicsLead} relatedNews={politicsRelated} />
 
-            {/* ০. ট্রেন্ডিং বার সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১৩. বিশ্ব সেকশন */}
+            <WorldNews
+                leadWorld={worldLeadNews}
+                middleWorld={worldMiddleList}
+                bulletWorld={worldBulletList}
+            />
+
+
+            {/* ০. ট্রেন্ডিং বার সেকশন */}
             <TrendingBar topics={trendingTopicsData} />
 
-            {/* ৩. শর্টস সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৩. শর্টস সেকশন */}
             <Shorts shortsData={filteredShorts} />
 
-            {/* ৪. সর্বাধিক পঠিত ও ফ্যাক্টচেক সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৪. সর্বাধিক পঠিত ও ফ্যাক্টচেক সেকশন */}
             <MostRead
                 mostReadData={filteredMostRead}
                 mainFactCheck={bigFactCheck}
                 factCheckList={sideFactCheckList}
             />
 
-            {/* ৫. ভিডিও সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৫. ভিডিও সেকশন */}
             <VideoSection
                 featuredVideo={bigVideo}
                 listVideos={middleVideosList}
                 analysisVideo={rightAnalysisVideo}
             />
 
-            {/* ৬. খেলাধুলা সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৬. খেলাধুলা সেকশন */}
             <SportsSection
                 leadSports={sportsLeadNews}
                 subGridSports={sportsSubGrid}
                 sidebarSports={sportsSidebarList}
                 featureSports={sportsFeatureCard}
             />
-            {/* ৭. ওয়েব স্টোরি সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৭. ওয়েব স্টোরি সেকশন */}
             <WebStories storiesData={filteredWebStories} />
 
-            {/* ৮. ছাপা সংস্করণ সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৮. ছাপা সংস্করণ সেকশন */}
             <PrintEdition printStories={filteredPrintEdition} />
 
-            {/* ৯. সারাদেশে সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ৯. সারাদেশে সেকশন */}
             <SaraDesh leadNews={saraDeshLead} sideNews={saraDeshSideList} />
 
-            {/* ১০. অর্থনীতি সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১০. অর্থনীতি সেকশন */}
             <EconomySection
                 leadEconomy={economyLead}
                 middleEconomy={economyMiddleList}
                 textEconomy={economyTextList}
             />
 
-            {/* ১১. বিনোদন সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১১. বিনোদন সেকশন */}
             <EntertainmentSection
                 leadEnt={entLeadNews}
                 subCardsEnt={entSubCards}
@@ -163,38 +163,31 @@ export default function Home() {
                 featureEnt={entFeatureCard}
             />
 
-            {/* ১২. চাকরি সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১২. চাকরি সেকশন */}
             <JobsSection
                 leadJob={jobLeadNews}
                 circularJobs={jobCircularList}
                 guideJob={jobGuideCard}
             />
 
-            {/* ১৩. বিশ্ব সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
-            <WorldNews
-                leadWorld={worldLeadNews}
-                middleWorld={worldMiddleList}
-                bulletWorld={worldBulletList}
-            />
-
-            {/* ১৪. ইসলাম সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১৪. ইসলাম সেকশন */}
             <IslamicNews
                 cardsIslam={islamCardList}
                 textIslam={islamTextList}
             />
-            {/* ১৫. জীবনধারা সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১৫. জীবনধারা সেকশন */}
             <LifestyleSection
                 mainLifestyle={lifestyleMainList}
                 sidebarLifestyle={lifestyleSidebarList}
             />
-            {/* ১৬. মতামত ও আড্ডা সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১৬. মতামত ও আড্ডা সেকশন */}
             <OpinionAndAdda
                 opinionLead={opinionLeadNews}
                 opinionSmallList={opinionSmallNewsList}
                 addaList={addaNewsList}
             />
 
-            {/* ১৭. ট্রেন্ডিং ট্যাগ সেকশন (ডায়নামিক ডাটা পাস করা হলো) */}
+            {/* ১৭. ট্রেন্ডিং ট্যাগ সেকশন */}
             <TrendingTags tags={trendingTags} />
         </div>
     );
