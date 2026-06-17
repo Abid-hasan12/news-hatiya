@@ -38,6 +38,37 @@ export const allNews = [
         imgSrc: "https://images.unsplash.com/photo-1492724441997-5dc865305da7?auto=format&fit=crop&w=200&q=80",
         isFeatured: false
     },
+
+    // 🎯 হাতিয়া উপজেলার ডেডিকেটেড নিউজ ডাটা 
+    {
+        id: 101,
+        title: "মেঘনার তীব্র ভাঙনে দিশেহারা হাতিয়ার চানন্দী ও সুখচর ইউনিয়নবাসী, দ্রুত বাঁধ নির্মাণের দাবি",
+        category: "হাতিয়া",
+        time: "২ ঘণ্টা আগে",
+        imgSrc: "https://images.unsplash.com/photo-1547683905-f686c993aae5?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        id: 102,
+        title: "হাতিয়ার জাহাজমারা পুলিশ তদন্ত কেন্দ্রের পরিদর্শক প্রত্যাহার, এলাকায় চাঞ্চল্য",
+        category: "হাতিয়া",
+        time: "৪ ঘণ্টা আগে",
+        imgSrc: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        id: 103,
+        title: "বঙ্গোপসাগরে মাছ ধরায় নিষেধাজ্ঞা: মেঘনা উপকূলের লক্ষাধিক জেলে পরিবারে অভাব-অনটন",
+        category: "হাতিয়া",
+        time: "৭ ঘণ্টা আগে",
+        imgSrc: "https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        id: 104,
+        title: "চরকিং ইউনিয়নে মেঘনার পাড়ে জেলের জালে ধরা পড়লো ২০ কেজি ওজনের বিশাল কোরাল মাছ",
+        category: "হাতিয়া",
+        time: "১ দিন আগে",
+        imgSrc: "https://images.unsplash.com/photo-1534447677768-be436bb09401?auto=format&fit=crop&w=800&q=80"
+    },
+
     {
         id: 4,
         title: "দেশের বাণিজ্যে নতুন উন্নয়নের তথ্য প্রকাশিত",
@@ -47,7 +78,7 @@ export const allNews = [
         isFeatured: false
     },
 
-// রাজনীতি সেকশনের ডাটা
+    // রাজনীতি সেকশনের ডাটা
     {
         id: 1,
         title: "সংসদীয় বাজেট আলোচনায় নতুন অর্থনৈতিক পূর্বাভাস প্রকাশ",
@@ -761,7 +792,7 @@ export const allNews = [
 
 // ন্যাভবারের ক্যাটাগরি লিস্ট
 export const navCategories = [
-    "সর্বশেষ","Hatiya", "বাংলাদেশ", "রাজনীতি", "বিশ্ব", "বাণিজ্য",
+    "সর্বশেষ", "Hatiya", "বাংলাদেশ", "রাজনীতি", "বিশ্ব", "বাণিজ্য",
     "মতামত", "খেলা", "বিনোদন", "চাকরি", "জীবনযাপন", "ভিডিও",
 ];
 
