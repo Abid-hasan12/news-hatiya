@@ -29,9 +29,9 @@ export default function Home() {
     const latestSidebar = allNews.filter(news => news.category === "সর্বশেষ").slice(0, 3);
 
     // 2. হাতিয়া উপজেলার ডাটা ফিল্টারিং
-    const hatiyaNewsList = allNews.filter(news => news.category === "হাতিয়া");
-    const hatiyaLead = hatiyaNewsList[0]; 
-    const hatiyaRelated = hatiyaNewsList.slice(1, 4);
+    const hatiyaNewsList = allNews ? allNews.filter(news => news.category === "হাতিয়া") : [];
+    const hatiyaLead = hatiyaNewsList[0] || null;
+    const hatiyaRelated = hatiyaNewsList.slice(1);
 
     // 3. রাজনীতি সেকশনের ডাটা ফিল্টারিং
     const politicsNewsList = allNews.filter(news => news.category === "রাজনীতি");

@@ -3,7 +3,7 @@ import React from 'react';
 // প্রপ্স হিসেবে cardsIslam এবং textIslam রিসিভ করা হচ্ছে
 export default function IslamicNews({ cardsIslam, textIslam }) {
   return (
-    <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
+    <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
       {/* Section Heading with Underline style */}
       <h2 className="text-xl font-bold text-teal-800 text-center mb-6 relative after:content-[''] after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-12 after:h-[2px] after:bg-teal-800 pb-2">
         ইসলাম
@@ -63,6 +63,15 @@ export default function IslamicNews({ cardsIslam, textIslam }) {
           ))}
         </aside>
 
+      </div>
+      <div className="w-full flex justify-end mt-0 py-2 px-6">
+        <a
+          href="#"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+        >
+          সব খবর
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </a>
       </div>
     </section>
   );

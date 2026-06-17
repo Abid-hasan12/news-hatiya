@@ -3,7 +3,7 @@ import React from 'react';
 // প্রপ্স হিসেবে opinionLead, opinionSmallList, এবং addaList রিসিভ করা হচ্ছে
 export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList }) {
     return (
-        <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200 grid grid-cols-1 lg:grid-cols-4 gap-8">
 
             {/* ================= LEFT: মতামত (Opinion) ================= */}
             <div className="lg:col-span-3 lg:border-r lg:border-gray-100 lg:pr-6">
@@ -82,7 +82,6 @@ export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList
                     ))}
                 </div>
             </aside>
-
         </section>
     );
 }

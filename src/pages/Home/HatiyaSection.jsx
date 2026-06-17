@@ -5,7 +5,7 @@ export default function HatiyaSection({ leadNews, relatedNews }) {
     if (!leadNews) return null;
 
     return (
-        <section className="hatiya-special-section max-w-7xl mx-auto px-4 py-10 my-6 bg-gradient-to-br from-teal-50 to-white rounded-3xl border border-teal-100 shadow-sm">
+        <section className="hatiya-special-section max-w-7xl mx-auto px-4 py-6 my-6 bg-gradient-to-br from-teal-50 to-white rounded-3xl border border-teal-100 shadow-sm">
 
             {/* সেকশন হেডার */}
             <div className="flex items-center justify-between mb-8 border-b-2 border-teal-600 pb-3">
@@ -18,9 +18,6 @@ export default function HatiyaSection({ leadNews, relatedNews }) {
                         আমাদের হাতিয়া <span className="text-sm font-medium text-teal-600 bg-teal-100 px-2 py-0.5 rounded-full ml-1">উপজেলা ফোকাস</span>
                     </h2>
                 </div>
-                <a href="#" className="text-sm font-bold text-teal-700 hover:text-teal-900 hover:underline transition-colors">
-                    সব খবর →
-                </a>
             </div>
 
             {/* মেইন গ্রিড লেআউট */}
@@ -76,7 +73,15 @@ export default function HatiyaSection({ leadNews, relatedNews }) {
                         ))}
                     </div>
                 </div>
-
+            </div>
+            <div className="w-full flex justify-end mt-4 px-4">
+                <a
+                    href="#"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+                >
+                    সব খবর
+                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                </a>
             </div>
         </section>
     );

@@ -8,7 +8,7 @@ export default function HeroSection({ featuredNews, sidebarNews }) {
 
     return (
         <section className="hero-section bg-gray-50">
-            <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl px-4 py-6">
+            <div className="mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 max-w-7xl px-4 py-2">
 
                 {/* Featured Big News (ডায়নামিক বড় খবর) */}
                 <article className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden">
@@ -32,7 +32,7 @@ export default function HeroSection({ featuredNews, sidebarNews }) {
                 </article>
 
                 {/* Latest News Sidebar (ডায়নামিক সাইডবার) */}
-                <aside className="latest-news bg-white rounded-3xl shadow-sm p-6">
+                <aside className="latest-news bg-white rounded-3xl shadow-sm p-6 py-8">
                     <h2 className="text-xl font-bold text-gray-900 border-b border-gray-100 pb-3">সর্বশেষ সংবাদ</h2>
                     <div className="mt-6 space-y-5">
                         {sidebarNews.map((item) => (
@@ -53,6 +53,15 @@ export default function HeroSection({ featuredNews, sidebarNews }) {
                     </div>
                 </aside>
 
+            </div>
+            <div className="w-full flex justify-end mt-0 py-2 px-6">
+                <a
+                    href="#"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+                >
+                    সব খবর
+                    <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+                </a>
             </div>
         </section>
     );

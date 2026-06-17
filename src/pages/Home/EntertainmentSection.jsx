@@ -2,24 +2,24 @@ import React from 'react';
 
 // প্রপ্স হিসেবে leadEnt, subCardsEnt, listEnt, এবং featureEnt রিসিভ করা হচ্ছে
 export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, featureEnt }) {
-  
+
   return (
-    <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
+    <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
       {/* Section Heading */}
       <h2 className="text-xl font-bold text-teal-800 text-center mb-6">বিনোদন</h2>
-      
+
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
+
         {/* ================= COLUMN 1 & 2: Main Lead & Sub Cards (Left) ================= */}
         <div className="lg:col-span-2 space-y-4">
           {/* Main Big Lead Card */}
           {leadEnt && (
             <article className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
               <div className="overflow-hidden">
-                <img 
-                  src={leadEnt.imgSrc} 
-                  alt={leadEnt.title} 
-                  className="w-full h-64 object-cover transform group-hover:scale-103 transition-transform duration-300" 
+                <img
+                  src={leadEnt.imgSrc}
+                  alt={leadEnt.title}
+                  className="w-full h-64 object-cover transform group-hover:scale-103 transition-transform duration-300"
                 />
               </div>
               <div className="p-6">
@@ -39,10 +39,10 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
             {subCardsEnt?.map((card) => (
               <article key={card.id} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col group cursor-pointer">
                 <div className="overflow-hidden">
-                  <img 
-                    src={card.imgSrc} 
-                    alt={card.title} 
-                    className="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-200" 
+                  <img
+                    src={card.imgSrc}
+                    alt={card.title}
+                    className="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-200"
                   />
                 </div>
                 <div className="p-4 flex-grow">
@@ -61,10 +61,10 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
           <div className="space-y-4">
             {listEnt?.map((item) => (
               <article key={item.id} className="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0 group cursor-pointer">
-                <img 
-                  src={item.imgSrc} 
-                  alt={item.title} 
-                  className="h-16 w-16 object-cover rounded-lg flex-shrink-0" 
+                <img
+                  src={item.imgSrc}
+                  alt={item.title}
+                  className="h-16 w-16 object-cover rounded-lg flex-shrink-0"
                 />
                 <div>
                   <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 line-clamp-2 text-sm sm:text-base leading-snug">
@@ -89,7 +89,7 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
               </p>
             </div>
             <div className="mt-6">
-              <a 
+              <a
                 href="#"
                 className="inline-flex items-center rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900 transition-colors duration-200 shadow-sm"
               >
@@ -99,6 +99,15 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
           </aside>
         )}
 
+      </div>
+      <div className="w-full flex justify-end mt-0 py-2 px-6">
+        <a
+          href="#"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+        >
+          সব খবর
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </a>
       </div>
     </section>
   );

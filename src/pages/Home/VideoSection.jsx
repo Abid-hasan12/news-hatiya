@@ -87,6 +87,15 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo 
         )}
 
       </div>
+       <div className="w-full flex justify-end mt-2  px-6">
+        <a
+          href="#"
+          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+        >
+          সব খবর
+          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+        </a>
+      </div>
     </section>
   );
 }
