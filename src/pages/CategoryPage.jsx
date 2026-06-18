@@ -2,9 +2,11 @@ import React from 'react';
 import { allNews } from '../newsData'; // তোমার মেইন ডাটা সোর্স
 
 export default function CategoryPage({ categoryName, onNewsClick }) {
+    const normalize = (str) => str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '';
+
     // 🎯 ১. ফিল্টার এবং ২. রিভার্স (যাতে নতুন ইনপুট দেওয়া নিউজ সবার উপরে থাকে)
     const filteredNews = allNews
-        ? allNews.filter(news => news.category === categoryName).reverse()
+        ? allNews.filter(news => normalize(news.category) === normalize(categoryName)).reverse()
         : [];
 
     // প্রথম প্রধান খবর (Hero News) এবং বাকি খবরগুলোকে আলাদা করা হলো
@@ -54,7 +56,7 @@ export default function CategoryPage({ categoryName, onNewsClick }) {
                                         {heroNews.title}
                                     </h2>
                                     <p className="text-sm text-gray-500 line-clamp-3 leading-relaxed">
-                                        {heroNews.description || "বিস্তারিত জানতে খবরের ওপর ক্লিক করুন। হাতিয়ার সর্বশেষ ও তাজা খবর সবার আগে পড়তে আমাদের সাথেই থাকুন।"}
+                                        {heroNews.description || "বিস্তারিত জানতে খবরের ওপর ক্লিক করুন। সর্বশেষ ও তাজা খবর সবার আগে পড়তে আমাদের সাথেই থাকুন।"}
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2 text-xs font-bold text-gray-400 pt-4 border-t border-gray-100">

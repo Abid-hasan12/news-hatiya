@@ -1,8 +1,9 @@
 import React from 'react';
 
-export default function HatiyaSection({ leadNews, relatedNews }) {
+export default function HatiyaSection({ leadNews, relatedNews, onSeeAllClick }) {
 
     if (!leadNews) return null;
+    const safeRelatedNews = Array.isArray(relatedNews) ? relatedNews : [];
 
     return (
         <section className="hatiya-special-section max-w-7xl mx-auto px-4 py-6 my-6 bg-gradient-to-br from-teal-50 to-white rounded-3xl border border-teal-100 shadow-sm">
@@ -50,13 +51,13 @@ export default function HatiyaSection({ leadNews, relatedNews }) {
                 {/* ডানপাশের লিস্ট নিউজ (৫ কলাম) */}
                 <div className="lg:col-span-5 flex flex-col justify-between bg-white p-6 rounded-2xl border border-teal-50 shadow-sm">
                     <div className="divide-y divide-gray-100 space-y-5">
-                        {relatedNews && relatedNews.map((news, index) => (
+                            {safeRelatedNews.map((news, index) => (
                             <div key={news.id || index} className="pt-4 first:pt-0 group/item">
                                 <a href="#" className="flex space-x-4 items-start">
                                     {/* ছোট থাম্বনেইল ইমেজ */}
                                     <div className="w-24 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden relative">
                                         <img
-                                            src={news.imgSrc}
+                                                src={news.imgSrc || 'https://via.placeholder.com/96x80'}
                                             alt={news.title}
                                             className="w-full h-full object-cover group-hover/item:scale-105 transition-transform"
                                         />
@@ -74,14 +75,15 @@ export default function HatiyaSection({ leadNews, relatedNews }) {
                     </div>
                 </div>
             </div>
-            <div className="w-full flex justify-end mt-4 px-4">
-                <a
-                    href="#"
-                    className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+            <div className="w-full flex justify-end mt-6">
+                <button
+                    onClick={onSeeAllClick}
+                    type="button"
+                    className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98 cursor-pointer group"
                 >
                     সব খবর
                     <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                </a>
+                </button>
             </div>
         </section>
     );

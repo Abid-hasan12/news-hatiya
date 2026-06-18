@@ -1,7 +1,7 @@
 import React from 'react';
 
 // 🎯 এখন সরাসরি ফিল্টার করা ডাটা প্রপ্স হিসেবে আসবে
-export default function Politics({ leadNews, relatedNews }) {
+export default function Politics({ leadNews, relatedNews, onSeeAllClick }) {
 
     // নিরাপত্তা চেক: যদি মেইন নিউজটাই না থাকে, তাহলে সেকশন হাইড থাকবে
     if (!leadNews) return null;
@@ -60,13 +60,14 @@ export default function Politics({ leadNews, relatedNews }) {
 
             </div>
             <div className="w-full flex justify-end mt-0 py-2 px-6">
-                <a
-                    href="#"
+                <button
+                    type="button"
+                    onClick={onSeeAllClick}
                     className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
                 >
                     সব খবর
                     <span className="transform group-hover:translate-x-1 transition-transform">→</span>
-                </a>
+                </button>
             </div>
         </section>
     );

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 // 🎯 প্রপ্স হিসেবে নতুন করে onCategoryClick এবং onLogoClick রিসিভ করা হলো
 export default function Navbar({ categories, breakingNews, onMenuOpen, onCategoryClick, onLogoClick }) {
     const [currentDate, setCurrentDate] = useState('');
+    const normalizeCategory = (str) => (str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '');
 
     // লাইভ বাংলা/ইংলিশ ফরম্যাটে আজকের তারিখ দেখানোর জন্য
     useEffect(() => {
@@ -109,7 +110,7 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                                     /* 🎯 এখানে onClick ইভেন্টটি যোগ করা হয়েছে যা App.jsx এর স্টেটকে চেঞ্জ করবে */
                                     <li
                                         key={index}
-                                        onClick={() => onCategoryClick(category)}
+                                        onClick={() => onCategoryClick(normalizeCategory(category))}
                                         className="hover:text-red-600 cursor-pointer transition-colors"
                                     >
                                         {category}
