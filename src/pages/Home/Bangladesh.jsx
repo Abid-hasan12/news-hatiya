@@ -128,7 +128,7 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
                   className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-teal-800 focus:outline-none cursor-pointer"
                 >
                   <option value="মিরসরাই">মিরসরাই</option>
-                  <option value="হাতিয়া">হাতিয়া</option>
+                  <option value="Hatiya">Hatiya</option>
                   <option value="উত্তরা">উত্তরা</option>
                 </select>
               </label>

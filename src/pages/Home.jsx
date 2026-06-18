@@ -22,111 +22,109 @@ import LifestyleSection from './Home/LifestyleSection';
 import OpinionAndAdda from './Home/OpinionAndAdda';
 import TrendingTags from './Home/TrendingTags';
 
-// 🎯 এখানে অবজেক্ট ডিস্ট্রাকচারিং করে { onCategoryClick } রিসিভ করা হলো
+// 🎯 অবজেক্ট ডিস্ট্রাকচারিং করে { onCategoryClick } রিসিভ করা হলো
 export default function Home({ onCategoryClick }) {
     const safeAllNews = Array.isArray(allNews) ? allNews : [];
-    const HATIYA_CATEGORY = 'হাতিয়া';
+
+    // 🛠️ তোমার রিকোয়েস্ট অনুযায়ী এটি ইংরেজিতেই 'Hatiya' রাখা হলো
+    const HATIYA_CATEGORY = 'Hatiya';
+
     const getCategoryNews = (category, extraFilter = () => true) => (
         safeAllNews.filter(news => news.category === category && extraFilter(news))
     );
 
+    // ডুপ্লিকেট আইডি রিমুভ করার হেল্পার ফাংশন
     const removeDuplicateIds = (items, excludedItems = []) => {
         const excludedIds = new Set(excludedItems.filter(Boolean).map(item => item.id));
         return items.filter(item => !excludedIds.has(item.id));
     };
 
-    // 1. হিরো সেকশনের ডাটা ফিল্টারিং (বড় নিউজ ও সাইডবার)
+    // ১. হিরো সেকশনের ডাটা ফিল্টারিং (বড় নিউজ ও সাইডবার)
     const latestNewsList = getCategoryNews('সর্বশেষ');
-    const bigFeaturedNews = latestNewsList.find(news => news.isFeatured === true) || latestNewsList[0] || null;
+    const bigFeaturedNews = [...latestNewsList].reverse().find(news => news.isFeatured === true) || [...latestNewsList].reverse()[0] || null;
     const latestSidebar = removeDuplicateIds(latestNewsList, [bigFeaturedNews]).slice(0, 6);
 
-    // ২. হাতিয়া উপজেলার ডাটা ফিল্টারিং (বানান ফিক্সড: "হাতিয়া")
+    // ২. Hatiya উপজেলার ডাটা ফিল্টারিং (নতুন নিউজ সবার আগে আসবে)
     const hatiyaNewsList = getCategoryNews(HATIYA_CATEGORY);
-    const hatiyaLead = hatiyaNewsList[0] || null;
-    const hatiyaRelated = hatiyaNewsList.filter(news => news.id !== hatiyaLead?.id);
+    const hatiyaLead = [...hatiyaNewsList].reverse()[0] || null;
+    const hatiyaRelated = removeDuplicateIds(hatiyaNewsList, [hatiyaLead]);
 
-    // 3. রাজনীতি সেকশনের ডাটা ফিল্টারিং (Lead নিউজ বাদ দিয়ে রিলেটেড ফিল্টার)
+    // ৩. রাজনীতি সেকশনের ডাটা ফিল্টারিং (নতুন নিউজ সবার আগে Lead হবে)
     const politicsNewsList = getCategoryNews('রাজনীতি');
-    const politicsLead = politicsNewsList[0];
-    const politicsRelated = politicsNewsList.filter(news => news.id !== politicsLead?.id).slice(0, 3);
+    const politicsLead = [...politicsNewsList].reverse()[0] || null;
+    const politicsRelated = removeDuplicateIds(politicsNewsList, [politicsLead]).slice(0, 3);
 
-    // 4. বিশ্ব সেকশনের ডাটা ফিল্টারিং
+    // ৪. বিশ্ব সেকশনের ডাটা ফিল্টারিং
     const worldNewsList = getCategoryNews('বিশ্ব');
-    const worldLeadNews = worldNewsList.find(news => news.worldType === "lead") || null;
-    // Lead নিউজটি যেন মিডল বা বুলেট লিস্টে আর না আসে
+    const worldLeadNews = [...worldNewsList].reverse().find(news => news.worldType === "lead") || [...worldNewsList].reverse()[0] || null;
     const worldMiddleList = worldNewsList.filter(news => news.worldType === "middleCard" && news.id !== worldLeadNews?.id).slice(0, 2);
-    const worldBulletList = worldNewsList.filter(news => news.worldType === "bullet" && news.id !== worldLeadNews?.id).slice(0, 2);
+    const worldBulletList = worldNewsList.filter(news => news.worldType === "bullet" && news.id !== worldLeadNews?.id && !worldMiddleList.some(m => m.id === news.id)).slice(0, 2);
 
-    // 5. শর্টস সেকশনের ডাটা ফিল্টারিং
+    // ৫. শর্টস সেকশনের ডাটা ফিল্টারিং
     const filteredShorts = getCategoryNews('শর্টস');
 
-    // 6. সর্বাধিক পঠিত এবং ফ্যাক্টচেক ডাটা ফিল্টারিং
+    // ৬. সর্বাধিক পঠিত এবং ফ্যাক্টচেক ডাটা ফিল্টারিং
     const filteredMostRead = getCategoryNews('সর্বাধিক পঠিত').slice(0, 6);
     const factCheckList = getCategoryNews('ফ্যাক্টচেক');
-    const bigFactCheck = factCheckList.find(news => news.isMainFact === true) || factCheckList[0] || null;
-    // মেইন ফ্যাক্টচেক নিউজটি যেন সাইড লিস্টে ডুপ্লিকেট না হয়
-    const sideFactCheckList = factCheckList.filter(news => news.id !== bigFactCheck?.id).slice(0, 3);
+    const bigFactCheck = [...factCheckList].reverse().find(news => news.isMainFact === true) || [...factCheckList].reverse()[0] || null;
+    const sideFactCheckList = removeDuplicateIds(factCheckList, [bigFactCheck]).slice(0, 3);
 
-    // 7. ভিডিও সেকশনের ডাটা ফিল্টারিং
+    // ७. ভিডিও সেকশনের ডাটা ফিল্টারিং
     const videoNewsList = getCategoryNews('ভিডিও');
-    const bigVideo = videoNewsList.find(news => news.videoType === "featured") || null;
-    // ফিচার্ড ও অ্যানালাইসিস ভিডিও যেন লিস্টে ডুপ্লিকেট না হয়
+    const bigVideo = [...videoNewsList].reverse().find(news => news.videoType === "featured") || [...videoNewsList].reverse()[0] || null;
     const rightAnalysisVideo = videoNewsList.find(news => news.videoType === "analysis") || null;
     const middleVideosList = videoNewsList.filter(news => news.videoType === "list" && news.id !== bigVideo?.id && news.id !== rightAnalysisVideo?.id).slice(0, 3);
 
-    // 8. খেলাধুলা সেকশনের ডাটা ফিল্টারিং
+    // ৮. খেলাধুলা সেকশনের ডাটা ফিল্টারিং
     const sportsNewsList = getCategoryNews('খেলাধুলা');
-    const sportsLeadNews = sportsNewsList.find(news => news.sportsType === "lead") || null;
-    // মেইন লিড নিউজ এবং ফিচার কার্ডের নিউজ যেন অন্য কোথাও ডুপ্লিকেট না হয়
+    const sportsLeadNews = [...sportsNewsList].reverse().find(news => news.sportsType === "lead") || [...sportsNewsList].reverse()[0] || null;
     const sportsFeatureCard = sportsNewsList.find(news => news.sportsType === "feature") || null;
-
     const sportsSubGrid = sportsNewsList.filter(news => news.sportsType === "subGrid" && news.id !== sportsLeadNews?.id && news.id !== sportsFeatureCard?.id).slice(0, 2);
-    const sportsSidebarList = sportsNewsList.filter(news => news.sportsType === "sidebar" && news.id !== sportsLeadNews?.id && news.id !== sportsFeatureCard?.id).slice(0, 4);
+    const sportsSidebarList = sportsNewsList.filter(news => news.sportsType === "sidebar" && news.id !== sportsLeadNews?.id && news.id !== sportsFeatureCard?.id && !sportsSubGrid.some(s => s.id === news.id)).slice(0, 4);
 
-    // 9. ওয়েব স্টোরি সেকশনের ডাটা ফিল্টারিং
+    // ৯. ওয়েব স্টোরি সেকশনের ডাটা ফিল্টারিং
     const filteredWebStories = getCategoryNews('ওয়েব স্টোরি');
 
-    // 10. ছাপা সংস্করণ সেকশনের ডাটা ফিল্টারিং
+    // ১০. ""`ছাপা সংস্করণ`"" সেকশনের ডাটা ফিল্টারিং
     const filteredPrintEdition = getCategoryNews('ছাপা সংস্করণ').slice(0, 4);
 
-    //  11. বাংলাদেশে সেকশনের ডাটা ফিল্টারিং
+    // ১১. বাংলাদেশে সেকশনের ডাটা ফিল্টারিং
     const BangladeshNewsList = getCategoryNews('বাংলাদেশ');
-    const BangladeshLead = BangladeshNewsList.find(news => news.isBangladeshLead === true) || null;
-    const BangladeshSideList = BangladeshNewsList.filter(news => news.id !== BangladeshLead?.id).slice(0, 2);
+    const BangladeshLead = [...BangladeshNewsList].reverse().find(news => news.isBangladeshLead === true) || [...BangladeshNewsList].reverse()[0] || null;
+    const BangladeshSideList = removeDuplicateIds(BangladeshNewsList, [BangladeshLead]).slice(0, 2);
 
-    // 12. অর্থনীতি সেকশনের ডাটা ফিল্টারিং
+    // ১২. অর্থনীতি সেকশনের ডাটা ফিল্টারিং
     const economyNewsList = getCategoryNews('অর্থনীতি');
-    const economyLead = economyNewsList.find(news => news.economyType === "lead") || null;
+    const economyLead = [...economyNewsList].reverse().find(news => news.economyType === "lead") || [...economyNewsList].reverse()[0] || null;
     const economyMiddleList = economyNewsList.filter(news => news.economyType === "middleCard" && news.id !== economyLead?.id).slice(0, 2);
-    const economyTextList = economyNewsList.filter(news => news.economyType === "textCard" && news.id !== economyLead?.id).slice(0, 2);
+    const economyTextList = economyNewsList.filter(news => news.economyType === "textCard" && news.id !== economyLead?.id && !economyMiddleList.some(m => m.id === news.id)).slice(0, 2);
 
-    // 13. বিনোদন সেকশনের ডাটা ফিল্টারিং
+    // ১৩. বিনোদন সেকশনের ডাটা ফিল্টারিং
     const entertainmentNewsList = getCategoryNews('বিনোদন');
-    const entLeadNews = entertainmentNewsList.find(news => news.entType === "lead") || null;
+    const entLeadNews = [...entertainmentNewsList].reverse().find(news => news.entType === "lead") || [...entertainmentNewsList].reverse()[0] || null;
     const entFeatureCard = entertainmentNewsList.find(news => news.entType === "feature") || null;
-
     const entSubCards = entertainmentNewsList.filter(news => news.entType === "subCard" && news.id !== entLeadNews?.id && news.id !== entFeatureCard?.id).slice(0, 2);
-    const entListNews = entertainmentNewsList.filter(news => news.entType === "list" && news.id !== entLeadNews?.id && news.id !== entFeatureCard?.id).slice(0, 4);
+    const entListNews = entertainmentNewsList.filter(news => news.entType === "list" && news.id !== entLeadNews?.id && news.id !== entFeatureCard?.id && !entSubCards.some(s => s.id === news.id)).slice(0, 4);
 
-    // 14. চাকরি সেকশনের ডাটা ফিল্টারিং
+    // ১৪. চাকরি সেকশনের ডাটা ফিল্টারিং
     const jobNewsList = getCategoryNews('চাকরি');
-    const jobLeadNews = jobNewsList.find(news => news.jobType === "lead") || null;
+    const jobLeadNews = [...jobNewsList].reverse().find(news => news.jobType === "lead") || [...jobNewsList].reverse()[0] || null;
     const jobGuideCard = jobNewsList.find(news => news.jobType === "guide") || null;
     const jobCircularList = jobNewsList.filter(news => news.jobType === "circular" && news.id !== jobLeadNews?.id && news.id !== jobGuideCard?.id).slice(0, 3);
 
-    //  15. ইসলাম সেকশনের ডাটা ফিল্টারিং
+    // ১৫. ইসলাম সেকশনের ডাটা ফিল্টারিং
     const islamNewsList = getCategoryNews('ইসলাম');
     const islamCardList = islamNewsList.filter(news => news.islamicType === "card").slice(0, 3);
-    const islamTextList = islamNewsList.filter(news => news.islamicType === "text").slice(0, 2);
+    const islamTextList = islamNewsList.filter(news => news.islamicType === "text" && !islamCardList.some(c => c.id === news.id)).slice(0, 2);
 
-    // 16. জীবনধারা সেকশনের ডাটা ফিল্টারিং
+    // ১৬. জীবনধারা সেকশনের ডাটা ফিল্টারিং
     const lifestyleNewsList = getCategoryNews('জীবনধারা');
     const lifestyleMainList = lifestyleNewsList.filter(news => news.lifestyleType === "main").slice(0, 3);
-    const lifestyleSidebarList = lifestyleNewsList.filter(news => news.lifestyleType === "sidebar").slice(0, 4);
+    const lifestyleSidebarList = lifestyleNewsList.filter(news => news.lifestyleType === "sidebar" && !lifestyleMainList.some(m => m.id === news.id)).slice(0, 4);
 
-    //  17. মতামত ও আড্ডা সেকশনের ডাটা ফিল্টারিং
+    // ১৭. মতামত ও আড্ডা সেকশনের ডাটা ফিল্টারিং
     const opinionNewsList = getCategoryNews('মতামত');
-    const opinionLeadNews = opinionNewsList.find(news => news.subType === "lead") || null;
+    const opinionLeadNews = [...opinionNewsList].reverse().find(news => news.subType === "lead") || [...opinionNewsList].reverse()[0] || null;
     const opinionSmallNewsList = opinionNewsList.filter(news => news.subType === "small" && news.id !== opinionLeadNews?.id).slice(0, 6);
     const addaNewsList = getCategoryNews('আড্ডা').slice(0, 3);
 
@@ -137,11 +135,11 @@ export default function Home({ onCategoryClick }) {
                 onSeeAllClick={() => onCategoryClick('সর্বশেষ', true)}
             />
 
-            {/* ২. হাতিয়া সেকশন */}
+            {/* ২. Hatiya সেকশন */}
             <HatiyaSection
                 leadNews={hatiyaLead}
                 relatedNews={hatiyaRelated}
-                onSeeAllClick={() => onCategoryClick(HATIYA_CATEGORY, true)} // 
+                onSeeAllClick={() => onCategoryClick(HATIYA_CATEGORY, true)}
             />
 
             {/* 3. রাজনীতি সেকশন  */}
@@ -189,6 +187,7 @@ export default function Home({ onCategoryClick }) {
                 featureSports={sportsFeatureCard}
                 onSeeAllClick={() => onCategoryClick('খেলাধুলা', true)}
             />
+
             {/* 10. ওয়েব স্টোরি সেকশন */}
             <WebStories
                 storiesData={filteredWebStories}
@@ -239,17 +238,20 @@ export default function Home({ onCategoryClick }) {
                 textIslam={islamTextList}
                 onSeeAllClick={() => onCategoryClick('ইসলাম', true)}
             />
+
             {/* 17. জীবনধারা সেকশন */}
             <LifestyleSection
                 mainLifestyle={lifestyleMainList}
                 sidebarLifestyle={lifestyleSidebarList}
                 onSeeAllClick={() => onCategoryClick('জীবনধারা', true)}
             />
+
             {/* 18. মতামত ও আড্ডা সেকশন */}
             <OpinionAndAdda
                 opinionLead={opinionLeadNews}
                 opinionSmallList={opinionSmallNewsList}
                 addaList={addaNewsList}
+                onSeeAllClick={() => onCategoryClick('মতামত', true)}
             />
 
             {/* 19. ট্রেন্ডিং ট্যাগ সেকশন */}
