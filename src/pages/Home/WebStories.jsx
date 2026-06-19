@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে storiesData রিসিভ করা হচ্ছে
 export default function WebStories({ storiesData, onSeeAllClick }) {
@@ -33,9 +35,17 @@ export default function WebStories({ storiesData, onSeeAllClick }) {
               <i className="fas fa-layer-group text-sm"></i>
             </div>
 
-            {/* Story Title */}
-            <div className="absolute bottom-3 left-3 right-3 text-white font-bold text-xs sm:text-sm leading-snug">
-              {story.title}
+            {/* Story Title & Optional Time */}
+            <div className="absolute bottom-3 left-3 right-3 text-white flex flex-col gap-1">
+              <div className="font-bold text-xs sm:text-sm leading-snug">
+                {story.title}
+              </div>
+              {/* 🎯 ফিউচার ব্যাকআপ: এপিআই থেকে ডেটা আসলে স্টোরির নিচে খুব হালকা করে টাইম দেখাবে */}
+              {story.createdAt && (
+                <span className="text-[10px] text-gray-300/80 font-normal">
+                  {timeAgo(story.createdAt)}
+                </span>
+              )}
             </div>
           </a>
         ))}

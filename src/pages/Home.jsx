@@ -22,15 +22,17 @@ import LifestyleSection from './Home/LifestyleSection';
 import OpinionAndAdda from './Home/OpinionAndAdda';
 import TrendingTags from './Home/TrendingTags';
 
-// 🎯 অবজেক্ট ডিস্ট্রাকচারিং করে { onCategoryClick } রিসিভ করা হলো
-export default function Home({ onCategoryClick }) {
+// 🎯 অবজেক্ট ডিস্ট্রাকচারিং করে onCategoryClick এবং onNewsClick রিসিভ করা হলো
+export default function Home({ onCategoryClick, onNewsClick }) {
     const safeAllNews = Array.isArray(allNews) ? allNews : [];
 
-    // 🛠️ তোমার রিকোয়েস্ট অনুযায়ী এটি ইংরেজিতেই 'Hatiya' রাখা হলো
     const HATIYA_CATEGORY = 'Hatiya';
 
+    // 🎯 ক্যাটাগরি ফিল্টারিং আরো নিখুঁত করার জন্য নরমালাইজেশন হেল্পার
+    const normalize = (str) => str ? str.replace('য়া', 'যা').trim() : '';
+
     const getCategoryNews = (category, extraFilter = () => true) => (
-        safeAllNews.filter(news => news.category === category && extraFilter(news))
+        safeAllNews.filter(news => normalize(news.category) === normalize(category) && extraFilter(news))
     );
 
     // ডুপ্লিকেট আইডি রিমুভ করার হেল্পার ফাংশন
@@ -85,7 +87,7 @@ export default function Home({ onCategoryClick }) {
     // ৯. ওয়েব স্টোরি সেকশনের ডাটা ফিল্টারিং
     const filteredWebStories = getCategoryNews('ওয়েব স্টোরি');
 
-    // ১০. ""`ছাপা সংস্করণ`"" সেকশনের ডাটা ফিল্টারিং
+    // ১০. "ছাপা সংস্করণ" সেকশনের ডাটা ফিল্টারিং
     const filteredPrintEdition = getCategoryNews('ছাপা সংস্করণ').slice(0, 4);
 
     // ১১. বাংলাদেশে সেকশনের ডাটা ফিল্টারিং
@@ -131,8 +133,11 @@ export default function Home({ onCategoryClick }) {
     return (
         <div className="home-page">
             {/* ১. হিরো সেকশন */}
-            <LatestNews featuredNews={bigFeaturedNews} sidebarNews={latestSidebar}
+            <LatestNews
+                featuredNews={bigFeaturedNews}
+                sidebarNews={latestSidebar}
                 onSeeAllClick={() => onCategoryClick('সর্বশেষ', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* ২. Hatiya সেকশন */}
@@ -140,6 +145,7 @@ export default function Home({ onCategoryClick }) {
                 leadNews={hatiyaLead}
                 relatedNews={hatiyaRelated}
                 onSeeAllClick={() => onCategoryClick(HATIYA_CATEGORY, true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 3. রাজনীতি সেকশন  */}
@@ -147,6 +153,7 @@ export default function Home({ onCategoryClick }) {
                 leadNews={politicsLead}
                 relatedNews={politicsRelated}
                 onSeeAllClick={() => onCategoryClick('রাজনীতি', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 4. বিশ্ব সেকশন */}
@@ -155,13 +162,14 @@ export default function Home({ onCategoryClick }) {
                 middleWorld={worldMiddleList}
                 bulletWorld={worldBulletList}
                 onSeeAllClick={() => onCategoryClick('বিশ্ব', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 5. ট্রেন্ডিং বার সেকশন */}
             <TrendingBar topics={trendingTopicsData} />
 
             {/* 6. শর্টস সেকশন */}
-            <Shorts shortsData={filteredShorts} />
+            <Shorts shortsData={filteredShorts} onNewsClick={onNewsClick} />
 
             {/* 7. সর্বাধিক পঠিত ও ফ্যাক্টচেক সেকশন */}
             <MostRead
@@ -169,6 +177,7 @@ export default function Home({ onCategoryClick }) {
                 mainFactCheck={bigFactCheck}
                 factCheckList={sideFactCheckList}
                 onSeeAllClick={() => onCategoryClick('সর্বাধিক পঠিত', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 8. ভিডিও সেকশন */}
@@ -177,6 +186,7 @@ export default function Home({ onCategoryClick }) {
                 listVideos={middleVideosList}
                 analysisVideo={rightAnalysisVideo}
                 onSeeAllClick={() => onCategoryClick('ভিডিও', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 9. খেলাধুলা সেকশন */}
@@ -186,18 +196,21 @@ export default function Home({ onCategoryClick }) {
                 sidebarSports={sportsSidebarList}
                 featureSports={sportsFeatureCard}
                 onSeeAllClick={() => onCategoryClick('খেলাধুলা', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 10. ওয়েব স্টোরি সেকশন */}
             <WebStories
                 storiesData={filteredWebStories}
                 onSeeAllClick={() => onCategoryClick('ওয়েব স্টোরি', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 11. ছাপা সংস্করণ সেকশন */}
             <PrintEdition
                 printStories={filteredPrintEdition}
                 onSeeAllClick={() => onCategoryClick('ছাপা সংস্করণ', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 12. বাংলাদেশে সেকশন */}
@@ -205,6 +218,7 @@ export default function Home({ onCategoryClick }) {
                 leadNews={BangladeshLead}
                 sideNews={BangladeshSideList}
                 onSeeAllClick={() => onCategoryClick('বাংলাদেশ', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 13. অর্থনীতি সেকশন */}
@@ -213,6 +227,7 @@ export default function Home({ onCategoryClick }) {
                 middleEconomy={economyMiddleList}
                 textEconomy={economyTextList}
                 onSeeAllClick={() => onCategoryClick('অর্থনীতি', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 14. বিনোদন সেকশন */}
@@ -222,6 +237,7 @@ export default function Home({ onCategoryClick }) {
                 listEnt={entListNews}
                 featureEnt={entFeatureCard}
                 onSeeAllClick={() => onCategoryClick('বিনোদন', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 15. চাকরি সেকশন */}
@@ -230,6 +246,7 @@ export default function Home({ onCategoryClick }) {
                 circularJobs={jobCircularList}
                 guideJob={jobGuideCard}
                 onSeeAllClick={() => onCategoryClick('চাকরি', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 16. ইসলাম সেকশন */}
@@ -237,6 +254,7 @@ export default function Home({ onCategoryClick }) {
                 cardsIslam={islamCardList}
                 textIslam={islamTextList}
                 onSeeAllClick={() => onCategoryClick('ইসলাম', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 17. জীবনধারা সেকশন */}
@@ -244,6 +262,7 @@ export default function Home({ onCategoryClick }) {
                 mainLifestyle={lifestyleMainList}
                 sidebarLifestyle={lifestyleSidebarList}
                 onSeeAllClick={() => onCategoryClick('জীবনধারা', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 18. মতামত ও আড্ডা সেকশন */}
@@ -252,6 +271,7 @@ export default function Home({ onCategoryClick }) {
                 opinionSmallList={opinionSmallNewsList}
                 addaList={addaNewsList}
                 onSeeAllClick={() => onCategoryClick('মতামত', true)}
+                onNewsClick={onNewsClick} // 🎯 পাস করা হলো
             />
 
             {/* 19. ট্রেন্ডিং ট্যাগ সেকশন */}

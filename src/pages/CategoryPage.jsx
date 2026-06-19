@@ -1,8 +1,10 @@
 import React from 'react';
 import { allNews } from '../newsData'; // তোমার মেইন ডাটা সোর্স
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../utils/timeAgo';
 
 export default function CategoryPage({ categoryName, onNewsClick }) {
-    const normalize = (str) => str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '';
+    const normalize = (str) => str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '';
 
     // 🎯 ১. ফিল্টার এবং ২. রিভার্স (যাতে নতুন ইনপুট দেওয়া নিউজ সবার উপরে থাকে)
     const filteredNews = allNews
@@ -59,8 +61,9 @@ export default function CategoryPage({ categoryName, onNewsClick }) {
                                         {heroNews.description || "বিস্তারিত জানতে খবরের ওপর ক্লিক করুন। সর্বশেষ ও তাজা খবর সবার আগে পড়তে আমাদের সাথেই থাকুন।"}
                                     </p>
                                 </div>
+                                {/* 🎯 হিরো নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
                                 <div className="flex items-center gap-2 text-xs font-bold text-gray-400 pt-4 border-t border-gray-100">
-                                    <span>🕒 {heroNews.time}</span>
+                                    <span>🕒 {timeAgo(heroNews.createdAt) || heroNews.time}</span>
                                 </div>
                             </div>
                         </div>
@@ -91,7 +94,8 @@ export default function CategoryPage({ categoryName, onNewsClick }) {
                                         <div className="flex items-center gap-3 text-[11px] font-semibold text-gray-400 pt-1">
                                             <span>📍 {news.category}</span>
                                             <span>•</span>
-                                            <span>🕒 {news.time}</span>
+                                            {/* 🎯 লিস্টেড নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                                            <span>🕒 {timeAgo(news.createdAt) || news.time}</span>
                                         </div>
                                     </div>
 

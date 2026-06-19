@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadWorld, middleWorld, এবং bulletWorld রিসিভ করা হচ্ছে
 export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAllClick }) {
@@ -27,7 +29,10 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
               <p className="mt-3 text-gray-600 text-sm leading-relaxed">
                 {leadWorld.desc}
               </p>
-              <div className="mt-4 text-gray-500 text-sm">{leadWorld.time}</div>
+              {/* 🎯 মেইন বিশ্ব সংবাদের পাবলিশ টাইম ডাইনামিক করা হলো */}
+              <div className="mt-4 text-gray-500 text-sm">
+                🕒 {timeAgo(leadWorld.createdAt) || leadWorld.time}
+              </div>
             </div>
           </article>
         )}
@@ -47,7 +52,10 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
                 <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 line-clamp-2 text-base">
                   {item.title}
                 </h4>
-                <div className="mt-3 text-gray-500 text-sm">{item.time}</div>
+                {/* 🎯 মিডল ইমেজ কার্ডের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                <div className="mt-3 text-gray-500 text-sm">
+                  🕒 {timeAgo(item.createdAt) || item.time}
+                </div>
               </div>
             </article>
           ))}
@@ -64,6 +72,12 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
               <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 text-base leading-snug">
                 {item.title}
               </h4>
+              {/* 🎯 ফিউচার ব্যাকআপ: বুলেট নিউজেও যদি কখনো ছোট করে টাইমস্ট্যাম্প দেখাতে চাও */}
+              {item.createdAt && (
+                <div className="text-[11px] text-gray-400 mt-2">
+                  {timeAgo(item.createdAt)}
+                </div>
+              )}
             </div>
           ))}
         </aside>

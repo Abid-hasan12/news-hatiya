@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadEconomy, middleEconomy, এবং textEconomy রিসিভ করা হচ্ছে
 export default function EconomySection({ leadEconomy, middleEconomy, textEconomy, onSeeAllClick }) {
@@ -27,7 +29,10 @@ export default function EconomySection({ leadEconomy, middleEconomy, textEconomy
               <p className="mt-4 text-gray-600">
                 {leadEconomy.desc}
               </p>
-              <div className="mt-5 text-gray-500 text-sm">{leadEconomy.time}</div>
+              {/* 🎯 লিড নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
+              <div className="mt-5 text-gray-500 text-sm">
+                {timeAgo(leadEconomy.createdAt) || leadEconomy.time}
+              </div>
             </div>
           </article>
         )}
@@ -47,7 +52,10 @@ export default function EconomySection({ leadEconomy, middleEconomy, textEconomy
                 <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2">
                   {item.title}
                 </h4>
-                <div className="mt-3 text-gray-500 text-sm">{item.time}</div>
+                {/* 🎯 মিডল ইমেজ কার্ডগুলোর টাইম ডাইনামিক করা হলো */}
+                <div className="mt-3 text-gray-500 text-sm">
+                  {timeAgo(item.createdAt) || item.time}
+                </div>
               </div>
             </article>
           ))}

@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadSports, subGridSports, sidebarSports এবং featureSports রিসিভ করা হচ্ছে
 export default function SportsSection({ leadSports, subGridSports, sidebarSports, featureSports, onSeeAllClick }) {
@@ -30,7 +32,10 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
                 <p className="mt-3 text-gray-600">
                   {leadSports.desc}
                 </p>
-                <div className="mt-4 text-gray-500 text-sm">{leadSports.time}</div>
+                {/* 🎯 মেইন স্পোর্টস লিড নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                <div className="mt-4 text-gray-500 text-sm">
+                  🕒 {timeAgo(leadSports.createdAt) || leadSports.time}
+                </div>
               </div>
             </article>
           )}
@@ -38,20 +43,28 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
           {/* Bottom 2-Column Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-100">
             {subGridSports?.map((item) => (
-              <article key={item.id} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col group cursor-pointer">
-                <div className="overflow-hidden">
-                  <img
-                    src={item.imgSrc}
-                    alt={item.title}
-                    className="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-300"
-                  />
+              <article key={item.id} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col justify-between group cursor-pointer">
+                <div>
+                  <div className="overflow-hidden">
+                    <img
+                      src={item.imgSrc}
+                      alt={item.title}
+                      className="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200">
+                      {item.title}
+                    </h4>
+                    <p className="mt-2 text-sm text-gray-500 line-clamp-2">{item.desc}</p>
+                  </div>
                 </div>
-                <div className="p-4 flex-1 flex flex-col justify-between">
-                  <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200">
-                    {item.title}
-                  </h4>
-                  <p className="mt-2 text-sm text-gray-500 line-clamp-2">{item.desc}</p>
-                </div>
+                {/* 🎯 ফিউচার ব্যাকআপ: সাব-গ্রিড কার্ডে যদি টাইমস্ট্যাম্প দেখাতে চাও */}
+                {item.createdAt && (
+                  <div className="px-4 pb-4 text-[11px] text-gray-400">
+                    🕒 {timeAgo(item.createdAt)}
+                  </div>
+                )}
               </article>
             ))}
           </div>
@@ -67,10 +80,16 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
                   alt={item.title}
                   className="h-16 w-16 object-cover rounded-lg shrink-0 transform group-hover:scale-105 transition-transform duration-200"
                 />
-                <div>
-                  <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2">
+                <div className="space-y-1">
+                  <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2 text-sm leading-snug">
                     {item.title}
                   </h4>
+                  {/* 🎯 ফিউচার ব্যাকআপ: সাইডবার স্পোর্টস লিস্টে টাইমস্ট্যাম্প */}
+                  {item.createdAt && (
+                    <span className="block text-[10px] text-gray-400">
+                      {timeAgo(item.createdAt)}
+                    </span>
+                  )}
                 </div>
               </article>
             ))}
@@ -91,13 +110,21 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
                 {featureSports.desc}
               </p>
             </div>
-            <div className="mt-6">
-              <a
-                href="#"
-                className="inline-flex items-center rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900 transition-colors duration-200 shadow-sm"
-              >
-                আরও পড়ুন
-              </a>
+            <div className="mt-6 flex flex-col gap-2">
+              {/* 🎯 ফিউচার ব্যাকআপ: ফিচার হাইলাইটে টাইমস্ট্যাম্প */}
+              {featureSports.createdAt && (
+                <span className="text-[11px] text-gray-400 block mb-2">
+                  🕒 {timeAgo(featureSports.createdAt)}
+                </span>
+              )}
+              <div>
+                <a
+                  href="#"
+                  className="inline-flex items-center rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900 transition-colors duration-200 shadow-sm"
+                >
+                  আরও পড়ুন
+                </a>
+              </div>
             </div>
           </aside>
         )}

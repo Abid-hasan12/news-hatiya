@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadEnt, subCardsEnt, listEnt, এবং featureEnt রিসিভ করা হচ্ছে
 export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, featureEnt, onSeeAllClick }) {
@@ -29,7 +31,10 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
                 <p className="mt-3 text-gray-600">
                   {leadEnt.desc}
                 </p>
-                <div className="mt-4 text-gray-500 text-sm">{leadEnt.time}</div>
+                {/* 🎯 মেইন লিড নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                <div className="mt-4 text-gray-500 text-sm">
+                  {timeAgo(leadEnt.createdAt) || leadEnt.time}
+                </div>
               </div>
             </article>
           )}
@@ -50,6 +55,10 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
                     {card.title}
                   </h4>
                   <p className="mt-2 text-sm text-gray-500 line-clamp-2">{card.desc}</p>
+                  {/* 🎯 ফিউচার প্রুফ ব্যাকআপ: সাব-কার্ডে যদি কখনো টাইম দেখাতে চাও */}
+                  {card.createdAt && (
+                    <div className="mt-2 text-gray-400 text-xs">{timeAgo(card.createdAt)}</div>
+                  )}
                 </div>
               </article>
             ))}
@@ -66,10 +75,14 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
                   alt={item.title}
                   className="h-16 w-16 object-cover rounded-lg flex-shrink-0"
                 />
-                <div>
+                <div className="flex flex-col justify-between h-full">
                   <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 line-clamp-2 text-sm sm:text-base leading-snug">
                     {item.title}
                   </h4>
+                  {/* 🎯 ফিউচার প্রুফ ব্যাকআপ: মিডল লিস্টে যদি কখনো টাইম দেখাতে চাও */}
+                  {item.createdAt && (
+                    <span className="text-[11px] text-gray-400 mt-1">{timeAgo(item.createdAt)}</span>
+                  )}
                 </div>
               </article>
             ))}

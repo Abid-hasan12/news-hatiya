@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে mostReadData, mainFactCheck এবং factCheckList রিসিভ করা হচ্ছে
 export default function MostRead({ mostReadData, mainFactCheck, factCheckList, onSeeAllClick }) {
@@ -54,7 +56,10 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
                 <p className="mt-3 text-gray-600 text-sm leading-relaxed line-clamp-3">
                   {mainFactCheck.desc}
                 </p>
-                <div className="mt-4 text-gray-500 text-sm">{mainFactCheck.time}</div>
+                {/* 🎯 মেইন ফ্যাক্টচেক নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                <div className="mt-4 text-gray-500 text-sm">
+                  {timeAgo(mainFactCheck.createdAt) || mainFactCheck.time}
+                </div>
               </div>
             </div>
           )}
@@ -72,23 +77,26 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
                   <h4 className="text-sm font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2">
                     {item.title}
                   </h4>
-                  <p className="mt-2 text-xs text-gray-500">{item.time}</p>
+                  {/* 🎯 সাইডবার ফ্যাক্টচেক লিস্টের খবরের টাইম ডাইনামিক করা হলো */}
+                  <p className="mt-2 text-xs text-gray-500">
+                    {timeAgo(item.createdAt) || item.time}
+                  </p>
                 </div>
               </div>
             ))}
           </div>
 
         </div>
-         <div className="w-full flex justify-end mt-0 py-2 px-6">
+        <div className="w-full flex justify-end mt-0 py-2 px-6">
           <button
             type="button"
             onClick={onSeeAllClick}
-          className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
-        >
-          সব খবর
-          <span className="transform group-hover:translate-x-1 transition-transform">→</span>
+            className="inline-flex items-center gap-2 px-5 py-2.5 text-sm font-bold text-teal-700 bg-teal-50 hover:bg-teal-100 border border-teal-200/60 rounded-xl transition-all duration-300 shadow-sm hover:shadow active:scale-98"
+          >
+            সব খবর
+            <span className="transform group-hover:translate-x-1 transition-transform">→</span>
           </button>
-      </div>
+        </div>
       </article>
     </section>
   );

@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // 🎯 এখন সরাসরি ফিল্টার করা ডাটা প্রপ্স হিসেবে আসবে
 export default function Politics({ leadNews, relatedNews, onSeeAllClick }) {
@@ -33,7 +35,10 @@ export default function Politics({ leadNews, relatedNews, onSeeAllClick }) {
                         <h3 className="text-xl sm:text-2xl font-bold text-gray-900 group-hover:text-red-600 transition-colors cursor-pointer line-clamp-2 leading-snug">
                             {leadNews.title}
                         </h3>
-                        <p className="text-sm text-gray-500">{leadNews.time}</p>
+                        {/* 🎯 মেইন খবরের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                        <p className="text-sm text-gray-500">
+                            {timeAgo(leadNews.createdAt) || leadNews.time}
+                        </p>
                     </div>
                 </article>
 
@@ -51,7 +56,10 @@ export default function Politics({ leadNews, relatedNews, onSeeAllClick }) {
                                     <h5 className="text-base font-bold text-gray-900 group-hover/item:text-red-600 transition-colors line-clamp-2 mb-1">
                                         {news.title}
                                     </h5>
-                                    <span className="text-xs text-gray-500">{news.time}</span>
+                                    {/* 🎯 রিলেটেড খবরের পাবলিশ টাইম ডাইনামিক করা হলো */}
+                                    <span className="text-xs text-gray-500">
+                                        {timeAgo(news.createdAt) || news.time}
+                                    </span>
                                 </a>
                             </div>
                         ))}

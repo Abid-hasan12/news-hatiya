@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে mainLifestyle এবং sidebarLifestyle রিসিভ করা হচ্ছে
 export default function LifestyleSection({ mainLifestyle, sidebarLifestyle, onSeeAllClick }) {
@@ -18,7 +20,10 @@ export default function LifestyleSection({ mainLifestyle, sidebarLifestyle, onSe
                 <h3 className="text-gray-900 font-bold text-sm leading-snug line-clamp-2 group-hover:text-teal-800 transition-colors">
                   {item.title}
                 </h3>
-                <p className="mt-2 text-gray-500 text-xs">{item.time}</p>
+                {/* 🎯 মেইন লাইফস্টাইল কার্ডের টাইম ডাইনামিক করা হলো */}
+                <p className="mt-2 text-gray-500 text-xs">
+                  {timeAgo(item.createdAt) || item.time}
+                </p>
               </div>
             </article>
           ))}
@@ -33,7 +38,10 @@ export default function LifestyleSection({ mainLifestyle, sidebarLifestyle, onSe
                 <h4 className="mt-2 font-bold text-gray-900 text-xs line-clamp-2 group-hover:text-teal-800 transition-colors">
                   {item.title}
                 </h4>
-                <p className="mt-1 text-gray-500 text-xs">{item.time}</p>
+                {/* 🎯 সাইডবার স্কয়ার কার্ডের টাইম ডাইনামিক করা হলো */}
+                <p className="mt-1 text-gray-500 text-xs">
+                  {timeAgo(item.createdAt) || item.time}
+                </p>
               </article>
             ))}
           </div>

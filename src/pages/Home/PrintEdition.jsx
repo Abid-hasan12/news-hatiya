@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে printStories রিসিভ করা হচ্ছে
 export default function PrintEdition({ printStories, onSeeAllClick }) {
@@ -25,8 +27,9 @@ export default function PrintEdition({ printStories, onSeeAllClick }) {
               <h3 className="text-base font-bold text-gray-900 leading-snug group-hover:text-teal-800 transition-colors duration-200 line-clamp-2">
                 {story.title}
               </h3>
+              {/* 🎯 ছাপা সংস্করণের পাবলিশ টাইম ডাইনামিক করা হলো */}
               <div className="mt-2 text-gray-500 text-xs flex items-center gap-1">
-                <i className="far fa-clock"></i> {story.time}
+                <i className="far fa-clock"></i> {timeAgo(story.createdAt) || story.time}
               </div>
             </div>
           </article>

@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 //  এখানে প্রপ্স হিসেবে onSeeAllClick যোগ করা হলো (সব খবর বাটনের জন্য)
 export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick }) {
@@ -31,8 +33,9 @@ export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick })
                         <p className="text-sm md:text-base text-gray-600 leading-relaxed line-clamp-3">
                             {featuredNews.desc}
                         </p>
+                        {/* 🎯 মেইন ফিচারেড নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
                         <div className="text-xs font-bold text-gray-400 pt-2">
-                            🕒 {featuredNews.time}
+                            🕒 {timeAgo(featuredNews.createdAt) || featuredNews.time}
                         </div>
                     </div>
                 </article>
@@ -42,7 +45,7 @@ export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick })
                     <div>
                         <div className="border-b-2 border-gray-900 pb-3 mb-5">
                             <h2 className="text-lg font-black text-gray-950 flex items-center gap-2">
-                                <span className="w-2.5 h-2.5 bg-red-600 rounded-full animate-pulse"></span>
+                                <span className="text-red-600 rounded-full animate-pulse">●</span>
                                 সর্বশেষ
                             </h2>
                         </div>
@@ -54,7 +57,7 @@ export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick })
                                     className={`flex items-start gap-4 group cursor-pointer ${index > 0 ? 'pt-4' : ''}`}
                                 >
                                     {/* সাইডবার ইমেজ */}
-                                    <div className="w-24 h-16 shrink-0 overflow-hidden rounded-xl bg-gray-100 border border-gray-50">
+                                    <div className="w-24 h-16 shrink-0 overflow-hidden rounded-xl bg-gray-100 border border-gray-100">
                                         <img
                                             src={item.imgSrc || 'https://via.placeholder.com/96x64'}
                                             alt={item.title}
@@ -66,8 +69,9 @@ export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick })
                                         <h3 className="text-sm font-bold text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
                                             {item.title}
                                         </h3>
+                                        {/* 🎯 সাইডবার লিস্টের খবরের টাইম ডাইনামিক করা হলো */}
                                         <span className="block text-[11px] font-semibold text-gray-400">
-                                            🕒 {item.time}
+                                            🕒 {timeAgo(item.createdAt) || item.time}
                                         </span>
                                     </div>
                                 </div>

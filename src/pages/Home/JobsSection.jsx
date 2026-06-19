@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadJob, circularJobs, এবং guideJob রিসিভ করা হচ্ছে
 export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllClick }) {
@@ -26,7 +28,10 @@ export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllC
               <p className="mt-3 text-gray-600 text-sm leading-relaxed">
                 {leadJob.desc}
               </p>
-              <div className="mt-4 text-gray-500 text-sm">{leadJob.time}</div>
+              {/* 🎯 মেইন ক্যারিয়ার লিড নিউজের পাবলিশ টাইম ডাইনামিক করা হলো */}
+              <div className="mt-4 text-gray-500 text-sm">
+                {timeAgo(leadJob.createdAt) || leadJob.time}
+              </div>
             </div>
           </article>
         )}
@@ -47,7 +52,10 @@ export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllC
                 <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 text-sm sm:text-base leading-snug">
                   {job.title}
                 </h4>
-                <div className="mt-2 text-gray-500 text-xs">{job.time}</div>
+                {/* 🎯 সার্কুলার লিস্টের টাইম ডাইনামিক করা হলো */}
+                <div className="mt-2 text-gray-500 text-xs">
+                  {timeAgo(job.createdAt) || job.time}
+                </div>
               </div>
             </article>
           ))}

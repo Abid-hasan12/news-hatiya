@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে cardsIslam এবং textIslam রিসিভ করা হচ্ছে
 export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick }) {
@@ -36,7 +38,8 @@ export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick }) {
                   <svg className="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  {item.time}
+                  {/* 🎯 গ্রিড ইমেজ কার্ডের টাইম ডাইনামিক করা হলো */}
+                  {timeAgo(item.createdAt) || item.time}
                 </div>
               </div>
             </article>
@@ -53,12 +56,13 @@ export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick }) {
               <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 text-sm leading-snug">
                 {item.title}
               </h4>
-              <p className="mt-2 text-gray-400 text-[11px] flex items-center gap-1">
+              <div className="mt-2 text-gray-400 text-[11px] flex items-center gap-1">
                 <svg className="w-3 h-3 text-gray-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
-                {item.time}
-              </p>
+                {/* 🎯 ডানপাশের টেক্সট আর্টিকেলের টাইম ডাইনামিক করা হলো */}
+                {timeAgo(item.createdAt) || item.time}
+              </div>
             </article>
           ))}
         </aside>

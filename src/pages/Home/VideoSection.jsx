@@ -1,4 +1,6 @@
 import React from 'react';
+// 🎯 তৈরি করা timeAgo ফাংশনটি ইমপোর্ট করা হলো
+import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে featuredVideo, listVideos, এবং analysisVideo রিসিভ করা হচ্ছে
 export default function VideoSection({ featuredVideo, listVideos, analysisVideo, onSeeAllClick }) {
@@ -31,7 +33,10 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
                 {featuredVideo.title}
               </h3>
               <p className="mt-3 text-gray-600">{featuredVideo.desc}</p>
-              <div className="mt-4 text-gray-500 text-sm">{featuredVideo.time}</div>
+              {/* 🎯 মেইন ভিডিওর আপলোড টাইম ডাইনামিক করা হলো */}
+              <div className="mt-4 text-gray-500 text-sm">
+                {timeAgo(featuredVideo.createdAt) || featuredVideo.time}
+              </div>
             </div>
           </article>
         )}
@@ -55,7 +60,10 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
                 <h4 className="text-sm font-semibold text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2">
                   {video.title}
                 </h4>
-                <p className="mt-2 text-xs text-gray-500">{video.time}</p>
+                {/* 🎯 ভিডিও লিস্টের আপলোড টাইম ডাইনামিক করা হলো */}
+                <p className="mt-2 text-xs text-gray-500">
+                  {timeAgo(video.createdAt) || video.time}
+                </p>
               </div>
             </article>
           ))}
@@ -76,6 +84,12 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
                 <h3 className="text-base font-bold text-gray-900 group-hover:text-red-600 transition-colors line-clamp-2">
                   {analysisVideo.title}
                 </h3>
+                {/* 🎯 ফিউচার ব্যাকআপ: অ্যানালাইসিস ভিডিওর জন্য টাইমস্ট্যাম্প */}
+                {analysisVideo.createdAt && (
+                  <p className="text-xs text-gray-400 mt-2">
+                    {timeAgo(analysisVideo.createdAt)}
+                  </p>
+                )}
               </div>
             </div>
             <div className="px-6 pb-6">
@@ -87,7 +101,7 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
         )}
 
       </div>
-       <div className="w-full flex justify-end mt-2  px-6">
+      <div className="w-full flex justify-end mt-2 px-6">
         <button
           type="button"
           onClick={onSeeAllClick}

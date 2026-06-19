@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
+import { timeAgo } from '../../utils/timeAgo';
 
-// প্রপ্স হিসেবে leadNews এবং sideNews রিসিভ করা হচ্ছে
+// প্রপ্স হিসেবে leadNews এবং sideNews রিসিভ 
 export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
 
-  // ফিল্টার স্টেট ম্যানেজমেন্ট (ভবিষ্যতে API এর সাথে ইন্টিগ্রেট করতে সুবিধা হবে)
+  // ফিল্টার স্টেট ম্যানেজমেন্ট 
   const [filters, setFilters] = useState({
     division: 'ঢাকা',
     district: 'রংপুর',
@@ -47,7 +48,9 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
                 <p className="mt-4 text-gray-600 text-sm leading-relaxed">
                   {leadNews.desc}
                 </p>
-                <div className="mt-5 text-gray-500 text-sm">{leadNews.time}</div>
+                <div className="mt-5 text-gray-500 text-sm">
+                  {timeAgo(leadNews.createdAt) || leadNews.time}
+                </div>
               </div>
             </article>
           )}
@@ -67,7 +70,9 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
                   <h4 className="text-base font-semibold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2">
                     {news.title}
                   </h4>
-                  <p className="mt-3 text-gray-500 text-sm">{news.time}</p>
+                  <p className="mt-3 text-gray-500 text-sm">
+                    {timeAgo(news.createdAt) || news.time}
+                  </p>
                 </div>
               </article>
             ))}
@@ -138,7 +143,7 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
                 type="submit"
                 className="mt-2 w-full rounded-lg bg-amber-500 py-2 text-sm font-bold text-white transition-colors hover:bg-amber-600 shadow-sm"
               >
-                খুঁজুন
+                খুজুন
               </button>
             </form>
           </div>
