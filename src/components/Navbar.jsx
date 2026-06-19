@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 // 🎯 প্রপ্স হিসেবে নতুন করে onCategoryClick এবং onLogoClick রিসিভ করা হলো
 export default function Navbar({ categories, breakingNews, onMenuOpen, onCategoryClick, onLogoClick }) {
     const [currentDate, setCurrentDate] = useState('');
-    const normalizeCategory = (str) => (str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '');
+    const normalizeCategory = (str) => (str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '');
 
     // লাইভ বাংলা/ইংলিশ ফরম্যাটে আজকের তারিখ দেখানোর জন্য
     useEffect(() => {
@@ -11,6 +11,29 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
         const today = new Date().toLocaleDateString('en-US', options);
         setCurrentDate(today);
     }, []);
+
+    // 🎯 ২৪ ঘণ্টার ফিল্টারিং এবং লেটেস্ট ব্রেকিং নিউজ সবার সামনে নিয়ে আসার লজিক
+    const getActiveBreakingNews = () => {
+        if (!Array.isArray(breakingNews)) return [];
+
+        const now = new Date();
+        const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); // ঠিক ২৪ ঘণ্টা আগের সময়
+
+        return breakingNews
+            .filter(news => {
+                // যদি ডাটা অবজেক্ট ফরম্যাটে থাকে এবং createdAt প্রোপার্টি থাকে
+                if (news && typeof news === 'object' && news.createdAt) {
+                    const newsDate = new Date(news.createdAt);
+                    return newsDate >= twentyFourHoursAgo;
+                }
+                // ব্যাকআপ: যদি শুধু স্ট্রিং অ্যারে হয়, তবে ফিল্টার স্কিপ করে ট্রু রিটার্ন করবে
+                return true;
+            })
+            .map(news => (news && typeof news === 'object' ? news.title : news)) // শুধু টেক্সট/টাইটেল টুকু নেওয়া
+            .reverse(); // 🎯 অ্যারে উল্টে দেওয়া হলো, যাতে সর্বশেষ পুশ করা নিউজটি লাইনের শুরুতে আসে
+    };
+
+    const activeBreakingList = getActiveBreakingNews();
 
     return (
         <>
@@ -45,7 +68,7 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                         {/* Instagram */}
                         <a href="#" className="hover:text-white transition-colors" aria-label="Instagram">
                             <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0 3.259-.014 3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204 0.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0 3.259-.014 3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
                             </svg>
                         </a>
                     </div>
@@ -60,7 +83,10 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                     </div>
                     <div className="breaking-news__ticker flex-1 flex justify-center items-center text-center overflow-hidden text-gray-800">
                         <marquee className="breaking-news__marquee" behavior="scroll" direction="left" scrollamount="5">
-                            {breakingNews ? breakingNews.join(" | ") : "লোড হচ্ছে..."}
+                            {/* 🎯 এখানে ২৪ ঘণ্টার ফিল্টার করা এবং রিভার্স করা নিউজগুলো চমৎকার ডিভাইডার দিয়ে জয়েন করা হয়েছে */}
+                            {activeBreakingList.length > 0
+                                ? activeBreakingList.join("   |   💥   |   ")
+                                : "কোনো তাজা খবর নেই"}
                         </marquee>
                     </div>
                 </div>
@@ -72,7 +98,7 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                 <div className="border-b border-gray-100 py-3">
                     <div className="max-w-7xl mx-auto px-4 md:px-6 flex justify-between items-center">
 
-                        {/* 🎯 লোগোতে onClick বসানো হলো এবং href সরিয়ে বাটন বিহেভিয়ার দেওয়া হলো */}
+                        {/* লোগোতে onClick বসানো হলো এবং href সরিয়ে বাটন বিহেভিয়ার দেওয়া হলো */}
                         <button onClick={onLogoClick} className="flex items-center gap-1 shrink-0 cursor-pointer focus:outline-none">
                             <span className="text-black font-extrabold text-2xl md:text-3xl tracking-tight">News</span>
                             <span className="text-red-600 font-extrabold text-2xl md:text-3xl tracking-tight">Hatiya</span>
@@ -106,8 +132,7 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                         <div className="flex-1 overflow-x-auto pr-2 md:pr-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden" style={{ WebkitOverflowScrolling: 'touch' }}>
                             <ul className="flex items-center gap-5 md:gap-6 text-gray-800 font-bold text-sm py-3 whitespace-nowrap md:whitespace-normal md:justify-center">
                                 {categories?.map((category, index) => (
-
-                                    /* 🎯 এখানে onClick ইভেন্টটি যোগ করা হয়েছে যা App.jsx এর স্টেটকে চেঞ্জ করবে */
+                                    /* এখানে onClick ইভেন্টটি যোগ করা হয়েছে যা App.jsx এর স্টেটকে চেঞ্জ করবে */
                                     <li
                                         key={index}
                                         onClick={() => onCategoryClick(normalizeCategory(category))}
@@ -115,7 +140,6 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                                     >
                                         {category}
                                     </li>
-
                                 ))}
                             </ul>
                         </div>
