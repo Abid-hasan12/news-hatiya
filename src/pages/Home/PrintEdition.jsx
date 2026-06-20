@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে printStories রিসিভ করা হচ্ছে
-export default function PrintEdition({ printStories, onSeeAllClick }) {
+export default function PrintEdition({ printStories, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
   return (
     <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
       {/* Section Title */}
@@ -12,7 +15,7 @@ export default function PrintEdition({ printStories, onSeeAllClick }) {
       {/* Responsive Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {printStories?.map((story) => (
-          <article key={story.id} className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+          <article key={story.id} onClick={() => handleNewsClick(story)} className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
             {/* Image Wrap */}
             <div className="overflow-hidden rounded-lg shadow-sm mb-3">
               <img

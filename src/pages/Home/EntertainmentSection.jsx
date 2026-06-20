@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadEnt, subCardsEnt, listEnt, এবং featureEnt রিসিভ করা হচ্ছে
-export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, featureEnt, onSeeAllClick }) {
+export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, featureEnt, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
@@ -16,7 +19,7 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
         <div className="lg:col-span-2 space-y-4">
           {/* Main Big Lead Card */}
           {leadEnt && (
-            <article className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+            <article onClick={() => handleNewsClick(leadEnt)} className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
               <div className="overflow-hidden">
                 <img
                   src={leadEnt.imgSrc}
@@ -42,7 +45,7 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
           {/* Sub Grid Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-100">
             {subCardsEnt?.map((card) => (
-              <article key={card.id} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col group cursor-pointer">
+              <article key={card.id} onClick={() => handleNewsClick(card)} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col group cursor-pointer">
                 <div className="overflow-hidden">
                   <img
                     src={card.imgSrc}
@@ -69,7 +72,7 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
         <aside className="bg-white rounded-3xl shadow-sm p-5">
           <div className="space-y-4">
             {listEnt?.map((item) => (
-              <article key={item.id} className="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0 group cursor-pointer">
+              <article key={item.id} onClick={() => handleNewsClick(item)} className="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0 group cursor-pointer">
                 <img
                   src={item.imgSrc}
                   alt={item.title}
@@ -102,12 +105,13 @@ export default function EntertainmentSection({ leadEnt, subCardsEnt, listEnt, fe
               </p>
             </div>
             <div className="mt-6">
-              <a
-                href="#"
+              <button
+                type="button"
+                onClick={() => handleNewsClick(featureEnt)}
                 className="inline-flex items-center rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900 transition-colors duration-200 shadow-sm"
               >
                 আরও পড়ুন
-              </a>
+              </button>
             </div>
           </aside>
         )}

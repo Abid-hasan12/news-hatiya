@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে cardsIslam এবং textIslam রিসিভ করা হচ্ছে
-export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick }) {
+export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
   return (
     <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
       {/* Section Heading with Underline style */}
@@ -16,7 +19,7 @@ export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick }) {
         {/* ================= LEFT & CENTER: 3-Column Grid (Image Cards) ================= */}
         <div className="lg:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
           {cardsIslam?.map((item) => (
-            <article key={item.id} className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer border border-gray-50 flex flex-col justify-between">
+            <article key={item.id} onClick={() => handleNewsClick(item)} className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer border border-gray-50 flex flex-col justify-between">
               <div>
                 <div className="overflow-hidden p-2">
                   <img
@@ -51,6 +54,7 @@ export default function IslamicNews({ cardsIslam, textIslam, onSeeAllClick }) {
           {textIslam?.map((item, idx) => (
             <article
               key={item.id}
+              onClick={() => handleNewsClick(item)}
               className={`group cursor-pointer ${idx !== textIslam.length - 1 ? 'pb-4 border-b border-gray-100' : ''}`}
             >
               <h4 className="font-bold text-gray-900 group-hover:text-teal-800 transition-colors duration-200 text-sm leading-snug">

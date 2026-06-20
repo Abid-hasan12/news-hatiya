@@ -4,6 +4,9 @@ import { allNews } from '../newsData'; // তোমার মেইন ডাট
 import { timeAgo } from '../utils/timeAgo';
 
 export default function CategoryPage({ categoryName, onNewsClick }) {
+    const handleNewsClick = (newsItem) => {
+        if (onNewsClick) onNewsClick(newsItem);
+    };
     const normalize = (str) => str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '';
 
     // 🎯 ১. ফিল্টার এবং ২. রিভার্স (যাতে নতুন ইনপুট দেওয়া নিউজ সবার উপরে থাকে)
@@ -38,13 +41,14 @@ export default function CategoryPage({ categoryName, onNewsClick }) {
 
                     {/* 🌟 প্রথম নিউজ: প্রফেশনাল হিরো লেআউট */}
                     {heroNews && (
-                        <div
-                            onClick={() => onNewsClick && onNewsClick(heroNews)} // 🎯 ক্লিকেবল
+                        <button
+                            type="button"
+                            onClick={() => handleNewsClick(heroNews)}
                             className="group cursor-pointer bg-white border border-gray-100 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 grid grid-cols-1 lg:grid-cols-12 gap-0 lg:gap-6"
                         >
                             <div className="lg:col-span-7 overflow-hidden aspect-video bg-gray-100">
                                 <img
-                                    src={heroNews.imgSrc || "https://via.placeholder.com/800x450"}
+                                    src={heroNews.imgSrc || heroNews.image || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80"}
                                     alt={heroNews.title}
                                     className="w-full h-full object-cover transform group-hover:scale-102 transition-transform duration-700"
                                 />
@@ -66,17 +70,18 @@ export default function CategoryPage({ categoryName, onNewsClick }) {
                                     <span>🕒 {timeAgo(heroNews.createdAt) || heroNews.time}</span>
                                 </div>
                             </div>
-                        </div>
+                        </button>
                     )}
 
                     {/* 📰 🎯 বাকি নিউজগুলো: প্রথম আলো স্টাইল লেআউট (বাম পাশে টেক্সট, ডান পাশে ইমেজ) */}
                     {remainingNews.length > 0 && (
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-6">
                             {remainingNews.map((news) => (
-                                <article
+                                <button
                                     key={news.id}
-                                    onClick={() => onNewsClick && onNewsClick(news)} // 🎯 ক্লিকেবল
-                                    className="group cursor-pointer bg-white p-4 border-b border-gray-200 lg:border lg:border-gray-100 lg:rounded-2xl lg:shadow-sm hover:shadow-md transition-all duration-300 flex justify-between gap-4 items-start"
+                                    type="button"
+                                    onClick={() => handleNewsClick(news)}
+                                    className="group cursor-pointer bg-white p-4 border-b border-gray-200 lg:border lg:border-gray-100 lg:rounded-2xl lg:shadow-sm hover:shadow-md transition-all duration-300 flex justify-between gap-4 items-start text-left"
                                 >
                                     {/* বাম দিক: হেডিং, ডেসক্রিপশন ও টাইম */}
                                     <div className="flex-1 flex flex-col justify-between h-full min-h-[90px] md:min-h-[110px]">
@@ -102,12 +107,12 @@ export default function CategoryPage({ categoryName, onNewsClick }) {
                                     {/* ডান দিক: প্রফেশনাল স্কয়ার থাম্বনেইল ইমেজ */}
                                     <div className="w-24 h-24 md:w-32 md:h-24 shrink-0 overflow-hidden rounded-xl bg-gray-100 border border-gray-50">
                                         <img
-                                            src={news.imgSrc || "https://via.placeholder.com/150"}
+                                            src={news.imgSrc || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500"}
                                             alt={news.title}
                                             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
                                         />
                                     </div>
-                                </article>
+                                </button>
                             ))}
                         </div>
                     )}

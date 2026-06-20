@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে featuredVideo, listVideos, এবং analysisVideo রিসিভ করা হচ্ছে
-export default function VideoSection({ featuredVideo, listVideos, analysisVideo, onSeeAllClick }) {
+export default function VideoSection({ featuredVideo, listVideos, analysisVideo, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
@@ -14,7 +17,7 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
 
         {/* ================= COLUMN 1: Featured Big Video (Left) ================= */}
         {featuredVideo && (
-          <article className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+          <article onClick={() => handleNewsClick(featuredVideo)} className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
             <div className="relative overflow-hidden">
               <img
                 src={featuredVideo.imgSrc}
@@ -44,7 +47,7 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
         {/* ================= COLUMN 2: Video List (Middle) ================= */}
         <div className="lg:col-span-1 space-y-4">
           {listVideos?.map((video) => (
-            <article key={video.id} className="flex gap-3 pb-3 border-b border-gray-100 last:border-b-0 group cursor-pointer">
+            <article key={video.id} onClick={() => handleNewsClick(video)} className="flex gap-3 pb-3 border-b border-gray-100 last:border-b-0 group cursor-pointer">
               <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl">
                 <img
                   src={video.imgSrc}
@@ -71,7 +74,7 @@ export default function VideoSection({ featuredVideo, listVideos, analysisVideo,
 
         {/* ================= COLUMN 3: Analysis Card (Right) ================= */}
         {analysisVideo && (
-          <article className="lg:col-span-1 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer flex flex-col justify-between">
+          <article onClick={() => handleNewsClick(analysisVideo)} className="lg:col-span-1 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer flex flex-col justify-between">
             <div>
               <div className="overflow-hidden">
                 <img

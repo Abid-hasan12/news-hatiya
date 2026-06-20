@@ -1,7 +1,10 @@
 import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
-export default function HatiyaSection({ leadNews, relatedNews, onSeeAllClick }) {
+export default function HatiyaSection({ leadNews, relatedNews, onSeeAllClick, onNewsClick }) {
+    const handleNewsClick = (newsItem) => {
+        if (onNewsClick) onNewsClick(newsItem);
+    };
 
     if (!leadNews) return null;
     const safeRelatedNews = Array.isArray(relatedNews) ? relatedNews : [];
@@ -26,10 +29,10 @@ export default function HatiyaSection({ leadNews, relatedNews, onSeeAllClick }) 
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
                 {/* বামপাশের বড় ব্যানার নিউজ (৭ কলাম) */}
-                <article className="lg:col-span-7 group flex flex-col justify-between space-y-4">
+                <article onClick={() => handleNewsClick(leadNews)} className="lg:col-span-7 group flex flex-col justify-between space-y-4 cursor-pointer">
                     <div className="block overflow-hidden rounded-2xl bg-gray-200 aspect-[16/10] max-h-[380px] relative shadow-md">
                         <img
-                            src={leadNews.imgSrc || "https://via.placeholder.com/800"}
+                            src={leadNews.imgSrc || leadNews.image || "https://images.unsplash.com/photo-1495020689067-958852a6565d?w=800&q=80"}
                             alt={leadNews.title}
                             className="w-full h-full object-cover transform group-hover:scale-102 transition-transform duration-500"
                         />
@@ -55,7 +58,7 @@ export default function HatiyaSection({ leadNews, relatedNews, onSeeAllClick }) 
                     <div className="divide-y divide-gray-100 space-y-5">
                         {safeRelatedNews.map((news, index) => (
                             <div key={news.id || index} className="pt-4 first:pt-0 group/item">
-                                <a href="#" className="flex space-x-4 items-start">
+                                <button type="button" onClick={() => handleNewsClick(news)} className="flex w-full space-x-4 items-start text-left">
                                     {/* ছোট থাম্বনেইল ইমেজ */}
                                     <div className="w-24 h-20 flex-shrink-0 bg-gray-100 rounded-xl overflow-hidden relative">
                                         <img
@@ -74,7 +77,7 @@ export default function HatiyaSection({ leadNews, relatedNews, onSeeAllClick }) 
                                             {timeAgo(news.createdAt) || news.time}
                                         </span>
                                     </div>
-                                </a>
+                                </button>
                             </div>
                         ))}
                     </div>

@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadSports, subGridSports, sidebarSports এবং featureSports রিসিভ করা হচ্ছে
-export default function SportsSection({ leadSports, subGridSports, sidebarSports, featureSports, onSeeAllClick }) {
+export default function SportsSection({ leadSports, subGridSports, sidebarSports, featureSports, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
@@ -17,7 +20,7 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
 
           {/* Main Big Lead Sports News */}
           {leadSports && (
-            <article className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+            <article onClick={() => handleNewsClick(leadSports)} className="bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
               <div className="overflow-hidden">
                 <img
                   src={leadSports.imgSrc}
@@ -43,7 +46,7 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
           {/* Bottom 2-Column Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4 pt-4 border-t border-gray-100">
             {subGridSports?.map((item) => (
-              <article key={item.id} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col justify-between group cursor-pointer">
+              <article key={item.id} onClick={() => handleNewsClick(item)} className="bg-white rounded-3xl shadow-sm overflow-hidden flex flex-col justify-between group cursor-pointer">
                 <div>
                   <div className="overflow-hidden">
                     <img
@@ -74,20 +77,28 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
         <aside className="bg-white rounded-3xl shadow-sm p-5">
           <div className="space-y-4">
             {sidebarSports?.map((item) => (
-              <article key={item.id} className="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0 group cursor-pointer">
+              <article
+                key={item.id}
+                onClick={() => handleNewsClick(item)}
+                className="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-0 group cursor-pointer"
+              >
+                {/* 🖼️ ইমেজ ট্যাগ ঠিক করা হলো */}
                 <img
-                  src={item.imgSrc}
+                  src={item.imgSrc || item.image || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500"}
                   alt={item.title}
                   className="h-16 w-16 object-cover rounded-lg shrink-0 transform group-hover:scale-105 transition-transform duration-200"
                 />
-                <div className="space-y-1">
+
+                {/* 📝 টেক্সট কন্টেন্ট (টাইটেল ও টাইমস্ট্যাম্প এক সাথে রাখার জন্য একটি div-এ রাখা ভালো) */}
+                <div className="flex flex-col justify-between">
                   <h4 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors duration-200 line-clamp-2 text-sm leading-snug">
                     {item.title}
                   </h4>
-                  {/* 🎯 ফিউচার ব্যাকআপ: সাইডবার স্পোর্টস লিস্টে টাইমস্ট্যাম্প */}
+
+                  {/* 🎯 টাইমস্ট্যাম্প */}
                   {item.createdAt && (
-                    <span className="block text-[10px] text-gray-400">
-                      {timeAgo(item.createdAt)}
+                    <span className="block text-[10px] text-gray-400 mt-1">
+                      🕒 {timeAgo(item.createdAt)}
                     </span>
                   )}
                 </div>
@@ -118,12 +129,13 @@ export default function SportsSection({ leadSports, subGridSports, sidebarSports
                 </span>
               )}
               <div>
-                <a
-                  href="#"
+                <button
+                  type="button"
+                  onClick={() => handleNewsClick(featureSports)}
                   className="inline-flex items-center rounded-full bg-teal-800 px-4 py-2 text-sm font-semibold text-white hover:bg-teal-900 transition-colors duration-200 shadow-sm"
                 >
                   আরও পড়ুন
-                </a>
+                </button>
               </div>
             </div>
           </aside>

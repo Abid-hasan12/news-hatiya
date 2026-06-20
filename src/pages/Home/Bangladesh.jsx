@@ -2,7 +2,10 @@ import React, { useState } from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadNews এবং sideNews রিসিভ 
-export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
+export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   // ফিল্টার স্টেট ম্যানেজমেন্ট 
   const [filters, setFilters] = useState({
@@ -33,7 +36,7 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
 
           {/* Main Big Lead News */}
           {leadNews && (
-            <article className="md:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+            <article onClick={() => handleNewsClick(leadNews)} className="md:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
               <div className="overflow-hidden">
                 <img
                   src={leadNews.imgSrc}
@@ -58,7 +61,7 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick }) {
           {/* Side Mini News Cards */}
           <div className="md:col-span-1 space-y-4">
             {sideNews?.map((news) => (
-              <article key={news.id} className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-100 group cursor-pointer">
+              <article key={news.id} onClick={() => handleNewsClick(news)} className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-100 group cursor-pointer">
                 <div className="overflow-hidden">
                   <img
                     src={news.imgSrc}

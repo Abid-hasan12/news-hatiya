@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে mostReadData, mainFactCheck এবং factCheckList রিসিভ করা হচ্ছে
-export default function MostRead({ mostReadData, mainFactCheck, factCheckList, onSeeAllClick }) {
+export default function MostRead({ mostReadData, mainFactCheck, factCheckList, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8 border-b border-gray-200">
@@ -15,7 +18,7 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
           {mostReadData?.map((item) => (
-            <div key={item.id} className="flex items-start gap-3 group cursor-pointer py-1">
+            <button type="button" key={item.id} onClick={() => handleNewsClick(item)} className="flex w-full items-start gap-3 group cursor-pointer py-1 text-left">
               <div className="text-4xl font-bold text-gray-300 group-hover:text-red-600 transition-colors duration-200">
                 {item.serialId}
               </div>
@@ -24,7 +27,7 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
                   {item.title}
                 </h3>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </article>
@@ -38,7 +41,7 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
 
           {/* Main Big Fact Check News */}
           {mainFactCheck && (
-            <div className="md:col-span-2 bg-gray-50 rounded-3xl overflow-hidden shadow-sm group cursor-pointer">
+            <div onClick={() => handleNewsClick(mainFactCheck)} className="md:col-span-2 bg-gray-50 rounded-3xl overflow-hidden shadow-sm group cursor-pointer">
               <div className="relative overflow-hidden">
                 <img
                   src={mainFactCheck.imgSrc}
@@ -67,9 +70,9 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
           {/* Fact Check Side List */}
           <div className="space-y-4">
             {factCheckList?.map((item) => (
-              <div key={item.id} className="flex items-start gap-3 border border-gray-100 rounded-3xl p-3 hover:border-red-100 transition-colors duration-200 group cursor-pointer">
+              <button type="button" key={item.id} onClick={() => handleNewsClick(item)} className="flex w-full items-start gap-3 border border-gray-100 rounded-3xl p-3 hover:border-red-100 transition-colors duration-200 group cursor-pointer text-left">
                 <img
-                  src={`https://via.placeholder.com/80x80?text=${item.placeholderText || 'FC'}`}
+                  src={item.imgSrc || item.image || `https://ui-avatars.com/api/?name=${encodeURIComponent(item.title || 'News')}&background=random&size=80`}
                   alt={item.title}
                   className="w-20 h-20 object-cover rounded-xl shrink-0"
                 />
@@ -82,7 +85,7 @@ export default function MostRead({ mostReadData, mainFactCheck, factCheckList, o
                     {timeAgo(item.createdAt) || item.time}
                   </p>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
 

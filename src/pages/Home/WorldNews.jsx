@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadWorld, middleWorld, এবং bulletWorld রিসিভ করা হচ্ছে
-export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAllClick }) {
+export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
@@ -14,7 +17,7 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
 
         {/* ================= COLUMN 1 & 2: Main World Lead News (Left) ================= */}
         {leadWorld && (
-          <article className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+          <article onClick={() => handleNewsClick(leadWorld)} className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
             <div className="overflow-hidden rounded-lg">
               <img
                 src={leadWorld.imgSrc}
@@ -40,7 +43,7 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
         {/* ================= COLUMN 3: Middle Image Cards ================= */}
         <div className="lg:col-span-1 space-y-4">
           {middleWorld?.map((item) => (
-            <article key={item.id} className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-50 group cursor-pointer">
+            <article key={item.id} onClick={() => handleNewsClick(item)} className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-50 group cursor-pointer">
               <div className="overflow-hidden">
                 <img
                   src={item.imgSrc}
@@ -64,8 +67,10 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
         {/* ================= COLUMN 4: Right Side Bullet News ================= */}
         <aside className="lg:col-span-1 bg-white rounded-3xl shadow-sm p-6 space-y-6">
           {bulletWorld?.map((item, idx) => (
-            <div
+            <button
+              type="button"
               key={item.id}
+              onClick={() => handleNewsClick(item)}
               className={`group cursor-pointer ${idx !== bulletWorld.length - 1 ? 'pb-5 border-b border-gray-100' : ''}`}
             >
               <div className="text-amber-600 font-bold mb-1 text-sm">{item.label}</div>
@@ -78,7 +83,7 @@ export default function WorldNews({ leadWorld, middleWorld, bulletWorld, onSeeAl
                   {timeAgo(item.createdAt)}
                 </div>
               )}
-            </div>
+            </button>
           ))}
         </aside>
 

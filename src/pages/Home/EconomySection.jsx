@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadEconomy, middleEconomy, এবং textEconomy রিসিভ করা হচ্ছে
-export default function EconomySection({ leadEconomy, middleEconomy, textEconomy, onSeeAllClick }) {
+export default function EconomySection({ leadEconomy, middleEconomy, textEconomy, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
@@ -14,7 +17,7 @@ export default function EconomySection({ leadEconomy, middleEconomy, textEconomy
 
         {/* ================= COLUMN 1 & 2: Featured Lead News (Left) ================= */}
         {leadEconomy && (
-          <article className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+          <article onClick={() => handleNewsClick(leadEconomy)} className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
             <div className="overflow-hidden rounded-lg">
               <img
                 src={leadEconomy.imgSrc}
@@ -40,7 +43,7 @@ export default function EconomySection({ leadEconomy, middleEconomy, textEconomy
         {/* ================= COLUMN 3: Middle Image Cards ================= */}
         <div className="lg:col-span-1 space-y-4">
           {middleEconomy?.map((item) => (
-            <article key={item.id} className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-50 group cursor-pointer">
+            <article key={item.id} onClick={() => handleNewsClick(item)} className="bg-white rounded-3xl shadow-sm overflow-hidden border border-gray-50 group cursor-pointer">
               <div className="overflow-hidden">
                 <img
                   src={item.imgSrc}
@@ -64,7 +67,7 @@ export default function EconomySection({ leadEconomy, middleEconomy, textEconomy
         {/* ================= COLUMN 4: Right Side Text Cards ================= */}
         <aside className="lg:col-span-1 space-y-4">
           {textEconomy?.map((item) => (
-            <article key={item.id} className="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 group cursor-pointer hover:border-teal-100 transition-colors duration-200">
+            <article key={item.id} onClick={() => handleNewsClick(item)} className="bg-white rounded-3xl shadow-sm border border-gray-100 p-5 group cursor-pointer hover:border-teal-100 transition-colors duration-200">
               <div className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${item.badgeColor}`}>
                 {item.badgeText}
               </div>

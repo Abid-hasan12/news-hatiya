@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে leadJob, circularJobs, এবং guideJob রিসিভ করা হচ্ছে
-export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllClick }) {
+export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
   return (
     <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200">
       {/* Section Heading */}
@@ -13,7 +16,7 @@ export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllC
 
         {/* ================= COLUMN 1 & 2: Main Career Lead News (Left) ================= */}
         {leadJob && (
-          <article className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
+          <article onClick={() => handleNewsClick(leadJob)} className="lg:col-span-2 bg-white rounded-3xl shadow-sm overflow-hidden group cursor-pointer">
             <div className="overflow-hidden rounded-lg">
               <img
                 src={leadJob.imgSrc}
@@ -41,6 +44,7 @@ export default function JobsSection({ leadJob, circularJobs, guideJob, onSeeAllC
           {circularJobs?.map((job) => (
             <article
               key={job.id}
+              onClick={() => handleNewsClick(job)}
               className="flex items-start gap-3 pb-3 border-b border-gray-100 last:border-b-0 group cursor-pointer"
             >
               <img

@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে storiesData রিসিভ করা হচ্ছে
-export default function WebStories({ storiesData, onSeeAllClick }) {
+export default function WebStories({ storiesData, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
       {/* Section Title */}
@@ -15,9 +18,10 @@ export default function WebStories({ storiesData, onSeeAllClick }) {
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {storiesData?.map((story) => (
-          <a
+          <button
+            type="button"
             key={story.id}
-            href="#"
+            onClick={() => handleNewsClick(story)}
             className="min-w-[150px] sm:min-w-[180px] md:min-w-[200px] aspect-[3/4] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer"
           >
             {/* Background Image */}
@@ -47,7 +51,7 @@ export default function WebStories({ storiesData, onSeeAllClick }) {
                 </span>
               )}
             </div>
-          </a>
+          </button>
         ))}
       </div>
       <div className="w-full flex justify-end mt-0 py-2 px-6">

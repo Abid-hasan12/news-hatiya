@@ -76,16 +76,15 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
             </header>
 
             {/* Breaking News Section */}
-            <section className="breaking-news bg-white border-t border-gray-200 text-sm">
+            <section className="breaking-news bg-white border-t border-gray-200 text-normal font-medium text-black">
                 <div className="mx-auto flex items-center gap-2 px-4 py-3 md:flex-row md:px-6">
                     <div className="breaking-news__label inline-flex items-center rounded px-3 py-1 bg-red-600 text-white font-bold whitespace-nowrap">
                         ব্রেকিং নিউজ:
                     </div>
-                    <div className="breaking-news__ticker flex-1 flex justify-center items-center text-center overflow-hidden text-gray-800">
+                    <div className="breaking-news__ticker flex-1 flex justify-center items-center text-center overflow-hidden text-black">
                         <marquee className="breaking-news__marquee" behavior="scroll" direction="left" scrollamount="5">
-                            {/* 🎯 এখানে ২৪ ঘণ্টার ফিল্টার করা এবং রিভার্স করা নিউজগুলো চমৎকার ডিভাইডার দিয়ে জয়েন করা হয়েছে */}
                             {activeBreakingList.length > 0
-                                ? activeBreakingList.join("   |   💥   |   ")
+                                ? activeBreakingList.join(" | | ")
                                 : "কোনো তাজা খবর নেই"}
                         </marquee>
                     </div>

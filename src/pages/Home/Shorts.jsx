@@ -1,7 +1,10 @@
 import React from 'react';
 
 // প্রপ্স হিসেবে shortsData রিসিভ করা হচ্ছে
-export default function Shorts({ shortsData, onSeeAllClick }) {
+export default function Shorts({ shortsData, onSeeAllClick, onNewsClick }) {
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   if (!shortsData || shortsData.length === 0) return null;
 
@@ -16,14 +19,15 @@ export default function Shorts({ shortsData, onSeeAllClick }) {
         style={{ WebkitOverflowScrolling: 'touch' }}
       >
         {shortsData.map((short) => (
-          <a
+          <button
+            type="button"
             key={short.id}
-            href="#"
+            onClick={() => handleNewsClick(short)}
             className="min-w-[180px] md:min-w-[220px] aspect-[9/16] relative overflow-hidden rounded-xl shadow-md snap-start group cursor-pointer"
           >
             {/* Thumbnail Image */}
             <img
-              src={`https://via.placeholder.com/360x640?text=${short.placeholderText || 'Short'}`}
+              src={short.imgSrc || short.image || "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=360&q=80"}
               alt={short.title}
               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
             />
@@ -40,7 +44,7 @@ export default function Shorts({ shortsData, onSeeAllClick }) {
             <div className="absolute bottom-3 left-3 right-3 text-white font-bold text-sm leading-snug">
               {short.title}
             </div>
-          </a>
+          </button>
         ))}
       </div>
       <div className="w-full flex justify-end mt-0 py-2 px-6">

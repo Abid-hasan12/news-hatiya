@@ -3,17 +3,23 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 //  এখানে প্রপ্স হিসেবে onSeeAllClick যোগ করা হলো (সব খবর বাটনের জন্য)
-export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick }) {
+export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick, onNewsClick }) {
 
     if (!featuredNews) return null;
     const safeSidebarNews = Array.isArray(sidebarNews) ? sidebarNews : [];
+    const handleNewsClick = (newsItem) => {
+        if (onNewsClick) onNewsClick(newsItem);
+    };
 
     return (
         <section className="hero-section bg-gray-50/50 py-6 md:py-10">
             <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                 {/* 🌟 বাম পাশ: আগে যেখানে 'জাতীয়' বা অন্য কিছু ছিল, এখন সেটা "সর্বশেষ সংবাদ" */}
-                <article className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden group cursor-pointer">
+                <article
+                    onClick={() => handleNewsClick(featuredNews)}
+                    className="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden group cursor-pointer"
+                >
                     <div className="overflow-hidden aspect-video bg-gray-100">
                         <img
                             src={featuredNews.imgSrc}
@@ -52,8 +58,10 @@ export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick })
 
                         <div className="space-y-5 divide-y divide-gray-100">
                             {safeSidebarNews.length > 0 ? safeSidebarNews.map((item, index) => (
-                                <div
+                                <button
+                                    type="button"
                                     key={item.id || index}
+                                    onClick={() => handleNewsClick(item)}
                                     className={`flex items-start gap-4 group cursor-pointer ${index > 0 ? 'pt-4' : ''}`}
                                 >
                                     {/* সাইডবার ইমেজ */}
@@ -74,7 +82,7 @@ export default function LatestNews({ featuredNews, sidebarNews, onSeeAllClick })
                                             🕒 {timeAgo(item.createdAt) || item.time}
                                         </span>
                                     </div>
-                                </div>
+                                </button>
                             )) : (
                                 <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-4 py-6 text-sm text-gray-500">
                                     এই মুহূর্তে আরও খবর নেই।

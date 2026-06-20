@@ -1,11 +1,15 @@
 import React from 'react';
 import { MdAccessTime } from 'react-icons/md';
 import { FaFacebook, FaTwitter, FaWhatsapp, FaLink } from 'react-icons/fa';
-// 🎯 ১. সেন্ট্রাল ডাটা সোর্স এবং timeAgo ইমপোর্ট করা হলো
+// 🎯 সেন্ট্রাল ডাটা সোর্স এবং timeAgo ইমপোর্ট করা হলো
 import { allNews } from '../newsData';
 import { timeAgo } from '../utils/timeAgo';
 
 export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
+
+  const handleNewsClick = (newsItem) => {
+    if (onNewsClick) onNewsClick(newsItem);
+  };
 
   // যদি কোনো কারণে নিউজ ডেটা না আসে, তাহলে এমারজেন্সি ফলব্যাক
   if (!news) {
@@ -22,7 +26,7 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
     );
   }
 
-  // 🎯 ২. ডাইনামিক সাইডবার ডাটা: একই ক্যাটাগরির অন্য ৩টি খবর (বর্তমান খবরটি বাদে)
+  // 🎯 ডাইনামিক সাইডবার ডাটা: একই ক্যাটাগরির অন্য ৪টি খবর (বর্তমান খবরটি বাদে)
   const normalize = (str) => str ? str.replace('য়া', 'যা').trim() : '';
   const relatedCategoryNews = allNews
     ? allNews.filter(item => normalize(item.category) === normalize(news.category) && item.id !== news.id).slice(0, 4)
@@ -46,7 +50,7 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
             {news.title}
           </h1>
 
-          {/* মেটা ডেটা: সময় এবং সোশ্যাল শেয়ার */}
+          {/* মেটা ডেটা: সময় এবং সোশ্যাল শেয়ার */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center border-y border-gray-100 py-4 gap-4">
             <div className="flex items-center text-gray-500 text-xs md:text-sm font-bold gap-1.5">
               <MdAccessTime className="text-lg text-gray-400" />
@@ -54,7 +58,7 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
               <span>প্রকাশিত: {timeAgo(news.createdAt) || news.time || 'কিছুক্ষণ আগে'}</span>
             </div>
 
-            {/* সোশ্যাল শেয়ার বাটন */}
+            {/* সোশ্যাল শেয়ার বাটন */}
             <div className="flex items-center gap-3">
               <span className="text-xs text-gray-400 font-bold uppercase tracking-wider">শেয়ার:</span>
               <button className="text-blue-600 hover:scale-110 transition-transform bg-blue-50 p-2 rounded-full"><FaFacebook size={18} /></button>
@@ -70,7 +74,7 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
               <img
                 src={news.imgSrc || news.image}
                 alt={news.title}
-                className="w-full h-auto max-h-[480px] w-full object-cover"
+                className="w-full h-auto max-h-[480px] object-cover"
               />
               <p className="text-xs text-gray-400 py-2.5 bg-gray-50 text-center italic font-medium border-t border-gray-100">
                 {news.caption || "ছবি: সংগৃহীত"}
@@ -78,19 +82,15 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
             </div>
           )}
 
-          {/* মূল বিস্তারিত খবর */}
+          {/* মূল বিস্তারিত খবর (সম্পূর্ণ newsData.js থেকে আসবে) */}
           <div className="prose max-w-none text-gray-800 text-base md:text-lg leading-relaxed md:leading-loose font-normal space-y-6">
-            <p className="font-semibold text-gray-900 bg-red-50/50 border-l-4 border-red-600 p-4 rounded-r-xl">
-              {news.description || "বিস্তারিত খবরটি পড়তে কিছুক্ষণের মধ্যে আবার চেষ্টা করুন। সর্বশেষ ও তাজা খবরের আপডেট পেতে আমাদের সাথেই থাকুন।"}
-            </p>
-
-            {/* যদি খবরটির বডি বড় থাকে তবে সেটির ফলব্যাক পলিফিল */}
-            <p>
-              সংশ্লিষ্ট নির্ভরযোগ্য সূত্র থেকে জানা গেছে, এই ঘটনার পরিপ্রেক্ষিতে স্থানীয় প্রশাসন ও নীতিনির্ধারকেরা জরুরি বৈঠক ডেকেছেন। উদ্ভূত পরিস্থিতি নিয়ন্ত্রণে দ্রুত কার্যকরী পদক্ষেপ নেওয়ার আশ্বাস দেওয়া হয়েছে।
-            </p>
-            <p>
-              বিশেষজ্ঞ মহল মনে করছেন, দীর্ঘমেয়াদে এই সিদ্ধান্তের প্রভাব সমাজ ও অর্থনীতিতে বেশ গভীর হতে পারে। তবে সাধারণ জনসাধারণের সুবিধার্থে ও সঠিক তথ্য প্রচারে গণমাধ্যমের ভূমিকা অনস্বীকার্য। পরবর্তী যেকোনো আপডেট সবার আগে জানতে চোখ রাখুন আমাদের পোর্টালে।
-            </p>
+            {news.desc || news.description ? (
+              <p className="text-gray-900 whitespace-pre-line">
+                {news.desc || news.description}
+              </p>
+            ) : (
+              <p className="italic text-gray-400">বিস্তারিত খবরটি পাওয়া যায়নি।</p>
+            )}
           </div>
         </div>
 
@@ -100,22 +100,22 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
             {/* সেকশন টাইটেল */}
             <div className="flex items-center gap-2 border-b-2 border-red-600 pb-3">
               <span className="w-2 h-4 bg-red-600 block rounded-sm"></span>
-              <h2 className="text-lg font-black text-gray-950">এই ক্যাটাগরির আরও খবর</h2>
+              <h2 className="text-lg font-black text-gray-950">আরও খবর</h2>
             </div>
 
-            {/* 🎯 ৩. সাইডবার রিয়েল ডাইনামিক লিস্ট */}
+            {/* 🎯 সাইডবার রিয়েল ডাইনামিক লিস্ট */}
             <div className="flex flex-col gap-4">
               {relatedCategoryNews.length > 0 ? (
                 relatedCategoryNews.map((item) => (
-                  <div
+                  <button
+                    type="button"
                     key={item.id}
-                    // 🎯 সাইডবারের খবরে ক্লিক করলে সেই খবরটি লোড হবে
-                    onClick={() => onNewsClick && onNewsClick(item)}
-                    className="flex gap-4 group cursor-pointer border-b border-gray-100 pb-4 items-start"
+                    onClick={() => handleNewsClick(item)}
+                    className="flex w-full gap-4 group cursor-pointer border-b border-gray-100 pb-4 items-start text-left"
                   >
                     <div className="w-24 h-16 shrink-0 overflow-hidden rounded-xl bg-gray-50 border border-gray-100">
                       <img
-                        src={item.imgSrc || item.image || "https://via.placeholder.com/150"}
+                        src={item.imgSrc || item.image || "https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=500"}
                         alt={item.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                       />
@@ -128,7 +128,7 @@ export default function SingleNews({ news, onCategoryClick, onNewsClick }) {
                         <span>🕒 {timeAgo(item.createdAt) || item.time || 'কিছুক্ষণ আগে'}</span>
                       </p>
                     </div>
-                  </div>
+                  </button>
                 ))
               ) : (
                 <p className="text-sm text-gray-400 italic">এই মুহূর্তে অন্য কোনো খবর নেই।</p>

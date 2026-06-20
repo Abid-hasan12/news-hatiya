@@ -3,7 +3,10 @@ import React from 'react';
 import { timeAgo } from '../../utils/timeAgo';
 
 // প্রপ্স হিসেবে opinionLead, opinionSmallList, এবং addaList রিসিভ করা হচ্ছে
-export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList }) {
+export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList, onNewsClick }) {
+    const handleNewsClick = (newsItem) => {
+        if (onNewsClick) onNewsClick(newsItem);
+    };
     return (
         <section className="max-w-7xl mx-auto px-4 py-6 border-b border-gray-200 grid grid-cols-1 lg:grid-cols-4 gap-8">
 
@@ -16,7 +19,7 @@ export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     {/* Big Opinion Card */}
                     {opinionLead && (
-                        <article className="md:col-span-1 bg-white rounded-3xl shadow-sm p-6 text-center border border-gray-50 group cursor-pointer flex flex-col justify-between">
+                        <article onClick={() => handleNewsClick(opinionLead)} className="md:col-span-1 bg-white rounded-3xl shadow-sm p-6 text-center border border-gray-50 group cursor-pointer flex flex-col justify-between">
                             <div>
                                 <div className="w-40 h-40 rounded-full border border-gray-200 mx-auto overflow-hidden">
                                     <img
@@ -52,8 +55,10 @@ export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList
                     {/* Small Opinion Items Grid (2 Columns) */}
                     <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {opinionSmallList?.map((item) => (
-                            <div
+                            <button
+                                type="button"
                                 key={item.id}
+                                onClick={() => handleNewsClick(item)}
                                 className="flex items-start gap-3 p-3 bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-50 group cursor-pointer transition-all duration-200"
                             >
                                 <img src={item.imgSrc} alt={item.author} className="w-10 h-10 rounded-full object-cover border border-gray-100" />
@@ -69,7 +74,7 @@ export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList
                                         <span className="text-[10px] text-gray-400 mt-1">{timeAgo(item.createdAt)}</span>
                                     )}
                                 </div>
-                            </div>
+                            </button>
                         ))}
                     </div>
                 </div>
@@ -83,8 +88,10 @@ export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList
 
                 <div className="flex flex-col gap-4">
                     {addaList?.map((item) => (
-                        <div
+                        <button
+                            type="button"
                             key={item.id}
+                            onClick={() => handleNewsClick(item)}
                             className="flex gap-3 pb-3 border-b border-gray-100 last:border-b-0 group cursor-pointer"
                         >
                             <img src={item.imgSrc} alt={item.title} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
@@ -102,7 +109,7 @@ export default function OpinionAndAdda({ opinionLead, opinionSmallList, addaList
                                     <span className="text-[10px] text-gray-400 mt-1">{timeAgo(item.createdAt)}</span>
                                 )}
                             </div>
-                        </div>
+                        </button>
                     ))}
                 </div>
             </aside>
