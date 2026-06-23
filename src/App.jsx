@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
 import MegaMenu from './components/MegaMenu';
 import Home from './pages/Home';
@@ -9,21 +9,81 @@ import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
 import { allNews, navCategories, breakingNewsData, footerLinks, megaMenuData } from './newsData';
+import { buildAppPath, createCategorySlug, getRoutePathFromLocation, resolveCategoryLabelFromSlug } from './utils/categoryRouting';
+
+const categoryLabels = [...new Set([
+    ...navCategories,
+    ...megaMenuData.flatMap((item) => [item.title, ...(item.subs || [])]),
+])];
+
+const getInitialRouteState = () => {
+    const routePath = getRoutePathFromLocation();
+
+    if (routePath.startsWith('/category/')) {
+        const slug = routePath.slice('/category/'.length);
+
+        return {
+            currentView: 'category',
+            selectedCategory: resolveCategoryLabelFromSlug(slug, categoryLabels),
+        };
+    }
+
+    return {
+        currentView: 'home',
+        selectedCategory: '',
+    };
+};
 
 export default function App() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const initialRouteState = getInitialRouteState();
 
     // 🎯 পেজ ট্র্যাকিং স্টেট: 'home', 'category', অথবা 'details'
-    const [currentView, setCurrentView] = useState('home');
-    const [selectedCategory, setSelectedCategory] = useState('');
+    const [currentView, setCurrentView] = useState(initialRouteState.currentView);
+    const [selectedCategory, setSelectedCategory] = useState(initialRouteState.selectedCategory);
     const [selectedNews, setSelectedNews] = useState(null); // 🎯 ক্লিক করা নিউজ সেভ রাখার স্টেট
     const [searchQuery, setSearchQuery] = useState('');
+
+    useEffect(() => {
+        const handlePopState = () => {
+            const routePath = getRoutePathFromLocation();
+
+            if (routePath.startsWith('/category/')) {
+                const slug = routePath.slice('/category/'.length);
+                setSelectedCategory(resolveCategoryLabelFromSlug(slug, categoryLabels));
+                setSelectedNews(null);
+                setSearchQuery('');
+                setCurrentView('category');
+                return;
+            }
+
+            setSelectedCategory('');
+            setSelectedNews(null);
+            setSearchQuery('');
+            setCurrentView('home');
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, []);
+
+    const navigateToHomePath = () => {
+        window.history.pushState({}, '', buildAppPath('/'));
+    };
+
+    const navigateToCategoryPath = (category) => {
+        window.history.pushState({}, '', buildAppPath(`/category/${createCategorySlug(category)}`));
+    };
 
     const navigateHome = () => {
         setSelectedCategory('');
         setSelectedNews(null);
         setSearchQuery('');
         setCurrentView('home');
+        navigateToHomePath();
     };
 
     // ক্যাটাগরি পরিবর্তনের ফাংশন
@@ -34,6 +94,8 @@ export default function App() {
             setSelectedCategory(category);
             setSelectedNews(null); // ক্যাটাগরি চেঞ্জ হলে আগের নিউজ স্টেট ক্লিয়ার করছি
             setCurrentView('category');
+            setSearchQuery('');
+            navigateToCategoryPath(category);
         }
     };
 
@@ -111,6 +173,7 @@ export default function App() {
                 onClose={() => setIsMenuOpen(false)}
                 menuData={megaMenuData}
                 onCategoryClick={handleCategorySelect}
+                activeCategory={selectedCategory}
             />
         </div>
     );

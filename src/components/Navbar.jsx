@@ -52,18 +52,25 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
         const now = new Date();
         const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000); // ঠিক ২৪ ঘণ্টা আগের সময়
 
-        return breakingNews
+        const recentBreakingNews = breakingNews
             .filter(news => {
                 // যদি ডাটা অবজেক্ট ফরম্যাটে থাকে এবং createdAt প্রোপার্টি থাকে
                 if (news && typeof news === 'object' && news.createdAt) {
                     const newsDate = new Date(news.createdAt);
-                    return newsDate >= twentyFourHoursAgo;
+                    return !Number.isNaN(newsDate.getTime()) && newsDate >= twentyFourHoursAgo;
                 }
                 // ব্যাকআপ: যদি শুধু স্ট্রিং অ্যারে হয়, তবে ফিল্টার স্কিপ করে ট্রু রিটার্ন করবে
                 return true;
             })
             .map(news => (news && typeof news === 'object' ? news.title : news)) // শুধু টেক্সট/টাইটেল টুকু নেওয়া
             .reverse(); // 🎯 অ্যারে উল্টে দেওয়া হলো, যাতে সর্বশেষ পুশ করা নিউজটি লাইনের শুরুতে আসে
+
+        // যদি সবগুলো আইটেম ২৪ ঘণ্টার বাইরে থাকে, তবুও ব্রেকিং টিকারটি খালি না রেখে পুরো তালিকা দেখানো হবে।
+        return recentBreakingNews.length > 0
+            ? recentBreakingNews
+            : breakingNews
+                .map(news => (news && typeof news === 'object' ? news.title : news))
+                .reverse();
     };
 
     const activeBreakingList = getActiveBreakingNews();
