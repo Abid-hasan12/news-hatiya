@@ -4,10 +4,11 @@ import MegaMenu from './components/MegaMenu';
 import Home from './pages/Home';
 import CategoryPage from './pages/CategoryPage';
 import SingleNews from './pages/SingleNews'; // 🎯 সিঙ্গেল নিউজ পেজটি ইমপোর্ট করা হলো
+import SearchResults from './pages/SearchResults';
 import ScrollToTop from './components/ScrollToTop';
 import Footer from './components/Footer';
 
-import { navCategories, breakingNewsData, footerLinks, megaMenuData } from './newsData';
+import { allNews, navCategories, breakingNewsData, footerLinks, megaMenuData } from './newsData';
 
 export default function App() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,10 +17,12 @@ export default function App() {
     const [currentView, setCurrentView] = useState('home');
     const [selectedCategory, setSelectedCategory] = useState('');
     const [selectedNews, setSelectedNews] = useState(null); // 🎯 ক্লিক করা নিউজ সেভ রাখার স্টেট
+    const [searchQuery, setSearchQuery] = useState('');
 
     const navigateHome = () => {
         setSelectedCategory('');
         setSelectedNews(null);
+        setSearchQuery('');
         setCurrentView('home');
     };
 
@@ -40,10 +43,17 @@ export default function App() {
         setCurrentView('details');
     };
 
+    const handleSearchSubmit = (query) => {
+        setSelectedCategory('');
+        setSelectedNews(null);
+        setSearchQuery(query);
+        setCurrentView('search');
+    };
+
     return (
         <div className="min-h-screen bg-white flex flex-col justify-between">
             {/* 🎯 ডিপেনডেন্সি লিস্টে currentView এবং selectedNews যোগ করা হলো যাতে পেজ চেঞ্জ হলেই স্ক্রল উপরে চলে যায় */}
-            <ScrollToTop dependencies={[currentView, selectedCategory, selectedNews]} />
+            <ScrollToTop dependencies={[currentView, selectedCategory, selectedNews, searchQuery]} />
 
             <div>
                 {/* Navbar-এ লোগো ক্লিক ও ক্যাটাগরি ক্লিকের ফাংশন পাস করা হলো */}
@@ -53,6 +63,7 @@ export default function App() {
                     onMenuOpen={() => setIsMenuOpen(true)}
                     onCategoryClick={handleCategorySelect}
                     onLogoClick={navigateHome}
+                    onSearchSubmit={handleSearchSubmit}
                 />
 
                 {/* Main Content Area - Conditional Rendering */}
@@ -68,6 +79,15 @@ export default function App() {
                         <CategoryPage
                             categoryName={selectedCategory}
                             onNewsClick={handleNewsSelect} // ক্যাটাগরি পেজে পাস করা হলো
+                        />
+                    )}
+
+                    {currentView === 'search' && (
+                        <SearchResults
+                            query={searchQuery}
+                            newsItems={allNews}
+                            onNewsClick={handleNewsSelect}
+                            onClearSearch={navigateHome}
                         />
                     )}
 

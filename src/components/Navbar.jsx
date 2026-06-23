@@ -1,15 +1,48 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // 🎯 প্রপ্স হিসেবে নতুন করে onCategoryClick এবং onLogoClick রিসিভ করা হলো
-export default function Navbar({ categories, breakingNews, onMenuOpen, onCategoryClick, onLogoClick }) {
+export default function Navbar({ categories, breakingNews, onMenuOpen, onCategoryClick, onLogoClick, onSearchSubmit }) {
     const [currentDate, setCurrentDate] = useState('');
+    const [isSearchOpen, setIsSearchOpen] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const searchInputRef = useRef(null);
+    const navbarRef = useRef(null);
     const normalizeCategory = (str) => (str ? str.replace('য়া', 'যা').replace('য়া', 'যা').trim() : '');
+    const normalizeText = (value) => (value || '').toString().toLowerCase().trim();
 
     // লাইভ বাংলা/ইংলিশ ফরম্যাটে আজকের তারিখ দেখানোর জন্য
     useEffect(() => {
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         const today = new Date().toLocaleDateString('en-US', options);
         setCurrentDate(today);
+    }, []);
+
+    useEffect(() => {
+        if (isSearchOpen && searchInputRef.current) {
+            searchInputRef.current.focus();
+        }
+    }, [isSearchOpen]);
+
+    useEffect(() => {
+        const handleOutsideClick = (event) => {
+            if (navbarRef.current && !navbarRef.current.contains(event.target)) {
+                setIsSearchOpen(false);
+            }
+        };
+
+        const handleEscape = (event) => {
+            if (event.key === 'Escape') {
+                setIsSearchOpen(false);
+            }
+        };
+
+        document.addEventListener('mousedown', handleOutsideClick);
+        document.addEventListener('keydown', handleEscape);
+
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick);
+            document.removeEventListener('keydown', handleEscape);
+        };
     }, []);
 
     // 🎯 ২৪ ঘণ্টার ফিল্টারিং এবং লেটেস্ট ব্রেকিং নিউজ সবার সামনে নিয়ে আসার লজিক
@@ -35,8 +68,32 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
 
     const activeBreakingList = getActiveBreakingNews();
 
+    const handleSearchToggle = () => {
+        setIsSearchOpen((prev) => !prev);
+    };
+
+    const handleSearchClose = () => {
+        setIsSearchOpen(false);
+        setSearchQuery('');
+    };
+
+    const handleSearchSubmit = (event) => {
+        event.preventDefault();
+
+        const query = searchQuery.trim();
+        if (!query) {
+            return;
+        }
+
+        if (onSearchSubmit) {
+            onSearchSubmit(query);
+        }
+
+        handleSearchClose();
+    };
+
     return (
-        <>
+        <div ref={navbarRef}>
             {/* Top Bar: Date & Social Links */}
             <header className="bg-gray-900 text-white text-sm">
                 <div className="mx-auto flex justify-between gap-3 px-4 py-2 flex-row items-center md:px-6">
@@ -105,6 +162,8 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
 
                         <div className="flex items-center gap-3 md:gap-4 text-gray-700 shrink-0">
                             <button
+                                type="button"
+                                onClick={handleSearchToggle}
                                 className=" text-gray-700 hover:text-red-600 p-1.5 transition-colors"
                                 aria-label="Search News"
                             >
@@ -112,7 +171,7 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </button>
-                            <button className="hidden md:block hover:text-red-600 transition-colors text-base p-1" aria-label="Search">
+                            <button type="button" onClick={handleSearchToggle} className="hidden md:block hover:text-red-600 transition-colors text-base p-1" aria-label="Search">
                                 <i className="fas fa-search"></i>
                             </button>
 
@@ -158,6 +217,53 @@ export default function Navbar({ categories, breakingNews, onMenuOpen, onCategor
                     </div>
                 </div>
             </nav>
-        </>
+
+            {isSearchOpen && (
+                <section className="border-b border-gray-200 bg-white shadow-sm">
+                    <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 space-y-4">
+                        <form onSubmit={handleSearchSubmit} className="flex items-center gap-3">
+                            <div className="flex-1 relative">
+                                <input
+                                    ref={searchInputRef}
+                                    type="search"
+                                    value={searchQuery}
+                                    onChange={(event) => setSearchQuery(event.target.value)}
+                                    placeholder="Search news by title or description..."
+                                    aria-label="Search news"
+                                    className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 pr-10 text-sm md:text-base text-gray-900 outline-none transition focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-100"
+                                />
+                                {searchQuery && (
+                                    <button
+                                        type="button"
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                                        aria-label="Clear search"
+                                    >
+                                        <i className="fas fa-times"></i>
+                                    </button>
+                                )}
+                            </div>
+                            <button
+                                type="submit"
+                                className="rounded-2xl bg-red-600 px-4 py-3 text-sm font-bold text-white transition hover:bg-red-700"
+                            >
+                                Search
+                            </button>
+                            <button
+                                type="button"
+                                onClick={handleSearchClose}
+                                className="rounded-2xl border border-gray-200 px-4 py-3 text-sm font-bold text-gray-600 hover:text-red-600 hover:border-red-200 transition-colors"
+                            >
+                                Close
+                            </button>
+                        </form>
+
+                        <div className="rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-4 py-8 text-center text-sm text-gray-500">
+                            Type a title or description, then press Search.
+                        </div>
+                    </div>
+                </section>
+            )}
+        </div>
     );
 }
