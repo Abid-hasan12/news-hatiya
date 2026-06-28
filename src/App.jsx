@@ -43,6 +43,7 @@ export default function App() {
     const [selectedCategory, setSelectedCategory] = useState(initialRouteState.selectedCategory);
     const [selectedNews, setSelectedNews] = useState(null); // 🎯 ক্লিক করা নিউজ সেভ রাখার স্টেট
     const [searchQuery, setSearchQuery] = useState('');
+    const [locationFilter, setLocationFilter] = useState(null);
 
     useEffect(() => {
         const handlePopState = () => {
@@ -53,6 +54,7 @@ export default function App() {
                 setSelectedCategory(resolveCategoryLabelFromSlug(slug, categoryLabels));
                 setSelectedNews(null);
                 setSearchQuery('');
+                setLocationFilter(null);
                 setCurrentView('category');
                 return;
             }
@@ -60,6 +62,7 @@ export default function App() {
             setSelectedCategory('');
             setSelectedNews(null);
             setSearchQuery('');
+            setLocationFilter(null);
             setCurrentView('home');
         };
 
@@ -82,6 +85,7 @@ export default function App() {
         setSelectedCategory('');
         setSelectedNews(null);
         setSearchQuery('');
+        setLocationFilter(null);
         setCurrentView('home');
         navigateToHomePath();
     };
@@ -95,6 +99,7 @@ export default function App() {
             setSelectedNews(null); // ক্যাটাগরি চেঞ্জ হলে আগের নিউজ স্টেট ক্লিয়ার করছি
             setCurrentView('category');
             setSearchQuery('');
+            setLocationFilter(null);
             navigateToCategoryPath(category);
         }
     };
@@ -109,6 +114,15 @@ export default function App() {
         setSelectedCategory('');
         setSelectedNews(null);
         setSearchQuery(query);
+        setLocationFilter(null);
+        setCurrentView('search');
+    };
+
+    const handleLocationSearch = (location) => {
+        setSelectedCategory('');
+        setSelectedNews(null);
+        setSearchQuery('');
+        setLocationFilter(location);
         setCurrentView('search');
     };
 
@@ -134,6 +148,7 @@ export default function App() {
                         <Home
                             onCategoryClick={handleCategorySelect}
                             onNewsClick={handleNewsSelect} // হোম পেজে পাস করা হলো
+                            onLocationSearch={handleLocationSearch}
                         />
                     )}
 
@@ -148,6 +163,7 @@ export default function App() {
                         <SearchResults
                             query={searchQuery}
                             newsItems={allNews}
+                            locationFilter={locationFilter}
                             onNewsClick={handleNewsSelect}
                             onClearSearch={navigateHome}
                         />

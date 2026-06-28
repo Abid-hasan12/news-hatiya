@@ -1,28 +1,68 @@
 import React, { useState } from 'react';
 import { timeAgo } from '../../utils/timeAgo';
+import { bdLocationHierarchy } from '../../data/bdLocations';
 
 // প্রপ্স হিসেবে leadNews এবং sideNews রিসিভ 
-export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsClick }) {
+export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsClick, onLocationSearch }) {
   const handleNewsClick = (newsItem) => {
     if (onNewsClick) onNewsClick(newsItem);
   };
 
+  const divisions = Object.keys(bdLocationHierarchy);
+  const initialDivision = divisions[0] || '';
+  const initialDistricts = Object.keys(bdLocationHierarchy[initialDivision] || {});
+  const initialDistrict = initialDistricts[0] || '';
+  const initialUpazilas = bdLocationHierarchy[initialDivision]?.[initialDistrict] || [];
+  const initialUpazila = initialUpazilas[0] || '';
+
   // ফিল্টার স্টেট ম্যানেজমেন্ট 
   const [filters, setFilters] = useState({
-    division: 'ঢাকা',
-    district: 'রংপুর',
-    upazila: 'মিরসরাই'
+    division: initialDivision,
+    district: initialDistrict,
+    upazila: initialUpazila
   });
 
   const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+
+    if (name === 'division') {
+      const nextDistricts = Object.keys(bdLocationHierarchy[value] || {});
+      const nextDistrict = nextDistricts[0] || '';
+      const nextUpazilas = bdLocationHierarchy[value]?.[nextDistrict] || [];
+      const nextUpazila = nextUpazilas[0] || '';
+
+      setFilters({
+        division: value,
+        district: nextDistrict,
+        upazila: nextUpazila,
+      });
+      return;
+    }
+
+    if (name === 'district') {
+      const nextUpazilas = bdLocationHierarchy[filters.division]?.[value] || [];
+      const nextUpazila = nextUpazilas[0] || '';
+
+      setFilters((prev) => ({
+        ...prev,
+        district: value,
+        upazila: nextUpazila,
+      }));
+      return;
+    }
+
+    setFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", filters);
-    // এখানে ফিল্টার অনুযায়ী নিউজ সার্চ লজিক বসবে
+    if (onLocationSearch) {
+      onLocationSearch(filters);
+    }
   };
+
+  const districts = Object.keys(bdLocationHierarchy[filters.division] || {});
+  const upazilas = bdLocationHierarchy[filters.division]?.[filters.district] || [];
 
   return (
     <section className="max-w-7xl mx-auto px-4 py-8 border-b border-gray-200">
@@ -86,7 +126,7 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsCl
         <aside className="lg:col-span-1">
           <div className="rounded-3xl overflow-hidden shadow-sm">
             <div className="bg-teal-800 text-white font-bold p-3 text-center rounded-t-lg">
-              এলার খবর
+              এলাকার খবর
             </div>
 
             <form onSubmit={handleSearch} className="bg-gray-50 p-4 border border-t-0 border-gray-200 rounded-b-lg flex flex-col gap-3">
@@ -99,14 +139,9 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsCl
                   onChange={handleFilterChange}
                   className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-teal-800 focus:outline-none cursor-pointer"
                 >
-                  <option value="ঢাকা">ঢাকা</option>
-                  <option value="চট্টগ্রাম">চট্টগ্রাম</option>
-                  <option value="রাজশাহী">রাজশাহী</option>
-                  <option value="খুলনা">খুলনা</option>
-                  <option value="বরিশাল">বরিশাল</option>
-                  <option value="সিলেট">সিলেট</option>
-                  <option value="রংপুর">রংপুর</option>
-                  <option value="ময়মনসিংহ">ময়মনসিংহ</option>
+                  {divisions.map((division) => (
+                    <option key={division} value={division}>{division}</option>
+                  ))}
                 </select>
               </label>
 
@@ -119,10 +154,9 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsCl
                   onChange={handleFilterChange}
                   className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-teal-800 focus:outline-none cursor-pointer"
                 >
-                  <option value="ঢাকা">ঢাকা</option>
-                  <option value="রংপুর">রংপুর</option>
-                  <option value="বরিশাল">বরিশাল</option>
-                  <option value="খুলনা">খুলনা</option>
+                  {districts.map((district) => (
+                    <option key={district} value={district}>{district}</option>
+                  ))}
                 </select>
               </label>
 
@@ -135,9 +169,9 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsCl
                   onChange={handleFilterChange}
                   className="mt-2 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm text-gray-700 focus:border-teal-800 focus:outline-none cursor-pointer"
                 >
-                  <option value="মিরসরাই">মিরসরাই</option>
-                  <option value="Hatiya">Hatiya</option>
-                  <option value="উত্তরা">উত্তরা</option>
+                  {upazilas.map((upazila) => (
+                    <option key={upazila} value={upazila}>{upazila}</option>
+                  ))}
                 </select>
               </label>
 
@@ -146,7 +180,7 @@ export default function Bangladesh({ leadNews, sideNews, onSeeAllClick, onNewsCl
                 type="submit"
                 className="mt-2 w-full rounded-lg bg-amber-500 py-2 text-sm font-bold text-white transition-colors hover:bg-amber-600 shadow-sm"
               >
-                খুজুন
+                খুঁজুন
               </button>
             </form>
           </div>

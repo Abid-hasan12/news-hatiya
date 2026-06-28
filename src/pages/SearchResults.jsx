@@ -3,12 +3,26 @@ import { timeAgo } from '../utils/timeAgo';
 
 const normalizeText = (value) => (value || '').toString().toLowerCase().trim();
 
-export default function SearchResults({ query, newsItems = [], onNewsClick, onClearSearch }) {
+export default function SearchResults({ query, newsItems = [], locationFilter = null, onNewsClick, onClearSearch }) {
     const trimmedQuery = query.trim();
     const normalizedQuery = normalizeText(trimmedQuery);
 
+    const hasLocationFilter = Boolean(locationFilter?.division && locationFilter?.district && locationFilter?.upazila);
+
     const filteredNews = Array.isArray(newsItems)
         ? newsItems.filter((news) => {
+            if (hasLocationFilter) {
+                const division = normalizeText(news?.location?.division);
+                const district = normalizeText(news?.location?.district);
+                const upazila = normalizeText(news?.location?.upazila);
+
+                return (
+                    division === normalizeText(locationFilter.division)
+                    && district === normalizeText(locationFilter.district)
+                    && upazila === normalizeText(locationFilter.upazila)
+                );
+            }
+
             const title = normalizeText(news?.title);
             const description = normalizeText(news?.desc || news?.description);
 
@@ -16,12 +30,16 @@ export default function SearchResults({ query, newsItems = [], onNewsClick, onCl
         })
         : [];
 
+    const searchTitle = hasLocationFilter
+        ? `${locationFilter.division} > ${locationFilter.district} > ${locationFilter.upazila}`
+        : query;
+
     return (
         <div className="max-w-7xl mx-auto px-4 py-8 min-h-[70vh] bg-gray-50/50">
             <div className="flex flex-wrap items-center gap-4 border-b-2 border-red-600 pb-4 mb-10">
                 <span className="bg-red-600 text-white text-xs uppercase font-black px-3 py-1.5 rounded-sm tracking-wider">Search</span>
                 <h1 className="text-2xl md:text-4xl font-black text-gray-950 tracking-tight">
-                    Results for “{query}”
+                    Results for “{searchTitle}”
                 </h1>
                 <span className="text-xs md:text-sm font-bold text-gray-400 bg-gray-100 px-2.5 py-1 rounded-full ml-auto">
                     {filteredNews.length}টি খবর
@@ -30,7 +48,7 @@ export default function SearchResults({ query, newsItems = [], onNewsClick, onCl
 
             {filteredNews.length === 0 ? (
                 <div className="text-center py-24 bg-white border border-gray-100 rounded-3xl shadow-sm text-gray-400 text-lg font-medium">
-                    No news found for “{query}”.
+                    No news found for “{searchTitle}”.
                     {onClearSearch && (
                         <button
                             type="button"
